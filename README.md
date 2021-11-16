@@ -1,4 +1,6 @@
-# Advanced Web Development
+---
+title: Advanced Web Development
+...
 
 This repository contains presentations and guidance for exercises for presentations on the following topics:
 
@@ -8,7 +10,7 @@ This repository contains presentations and guidance for exercises for presentati
 4. [JS exercise & Cesium](./cesium/cesium.html)
 5. [Advanced TypeScript](./advanced-ts/advanced-ts.html)
 6. [Advanced React](./advanced-react/advanced-react.html)
-7. ngRx
+7. [ngRx](./ngrx/ngrx.html)
 8. react-redux
 9. Advanced CSS - Coming soon!
 10. Tools to help write better code - Coming soon!
