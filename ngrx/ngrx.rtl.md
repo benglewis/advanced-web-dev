@@ -48,7 +48,7 @@ slideNumber: \'c/t\'
 
 - [https://dashboard.nbshare.io/api/v1/apps/reddit](https://dashboard.nbshare.io/api/v1/apps/reddit)
 - `npm i rxjs`
-- לפתוח בקשת GET אל ה-API פעם ב-200 מילי-שניות
+- לפתוח בקשת GET אל ה-API פעם ב2-שניות ל-10 שניות
 - לפרסר את המידע
 - להסיר את המידע שהוא עם הערות מתחת ל-3, `"sentiment"` שהוא לא `"Bullish"` ו-`"sentiment_score"` מעל 0.3. אם יש מתחת ל-3 תוצאות, לא להוציא ל-Observable
 - להציג את ה-3 הראשונים
