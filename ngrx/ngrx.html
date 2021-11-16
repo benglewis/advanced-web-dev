@@ -270,22 +270,28 @@
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 </ul>
 </section></section>
-<section>
-<section id="תרגיל-1" class="title-slide slide level1">
-<h1>תרגיל</h1>
+<section id="תרגיל---התקנות" class="title-slide slide level1">
+<h1>תרגיל - התקנות</h1>
 <ol type="1">
-<li class="fragment">תצרו פרויקט Angular חדש ע”י <code>npx @angular/cli@12 new</code> (Angular 13 עדיין לא נתמך ע”י ngrx, אפשר להשתמש ב-CSS רגיל ולהוסיף את ה-router)</li>
-<li class="fragment">תוסיפו את <code>@ngrx/store</code> ע”י <code>npx @angular/cli add @ngrx/store@latest</code></li>
-<li class="fragment">תוסיפו את <code>@ngrx/schematics</code> ע”י <code>npx @angular/cli add @ngrx/schematics@latest</code></li>
-<li class="fragment">תוסיפו את <code>@ngrx/store-devtools</code> ע”י <code>npx @angular/cli add @ngrx/store-devtools@latest</code></li>
-<li class="fragment">תצרו קומפוננטה עבור ה-login כולל שלוש input אחד ל-<code>username</code> ואחד <code>password</code> ואחד ל-<code>submit</code> ותצרו action שהוא asynchronous ב-<code>@ngrx/store</code> עבור login כאשר success אמור להחזיר <code>firstName</code>, <code>lastName</code> ו-<code>email</code></li>
+<li class="fragment">תצרו פרויקט Angular חדש ע”י <code dir="ltr">npx @angular/cli@12 new</code> (Angular 13 עדיין לא נתמך ע”י ngrx, אפשר להשתמש ב-CSS רגיל ולהוסיף את ה-router)</li>
+<li class="fragment">תוסיפו את <code dir="ltr">@ngrx/store</code> ע”י <code dir="ltr">npx @angular/cli add @ngrx/store@latest</code></li>
+<li class="fragment">תוסיפו את <code dir="ltr">@ngrx/schematics</code> ע”י <code dir="ltr">npx @angular/cli add @ngrx/schematics@latest</code></li>
+<li class="fragment">תוסיפו את <code dir="ltr">@ngrx/store-devtools</code> ע”י <code dir="ltr">npx @angular/cli add @ngrx/store-devtools@latest</code></li>
+</ol>
+</section>
+
+<section>
+<section id="תרגיל---עבודה" class="title-slide slide level1">
+<h1>תרגיל - עבודה</h1>
+<ol start="5" type="1">
+<li class="fragment">תצרו קומפוננטה עבור ה-login כולל שלוש input אחד ל-<code>username</code> ואחד <code>password</code> ואחד ל-<code>submit</code> ותצרו action שהוא asynchronous ב-<code dir="ltr">@ngrx/store</code> עבור login כאשר success אמור להחזיר <code>firstName</code>, <code>lastName</code> ו-<code>email</code></li>
 <li class="fragment">תבדוק ב-Redux DevTools כי ה-action הורץ בלחיצה על כפתור ה-submit</li>
 </ol>
 </section>
 <section id="effects" class="slide level2">
 <h2>Effects</h2>
 <ul>
-<li class="fragment">משתמשים ב-<code>@ngrx/effect</code></li>
+<li class="fragment">משתמשים ב-<code dir="ltr">@ngrx/effect</code></li>
 <li class="fragment"><div class="sourceCode" id="cb8"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Injectable } from <span class="st">&quot;@angular/core&quot;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  Actions<span class="op">,</span></span>

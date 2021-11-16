@@ -168,18 +168,21 @@ export class AppModule {}
   )
   ```
 
-# תרגיל
+# תרגיל - התקנות
 
-1. תצרו פרויקט Angular חדש ע"י `npx @angular/cli@12 new` (Angular 13 עדיין לא נתמך ע"י ngrx, אפשר להשתמש ב-CSS רגיל ולהוסיף את ה-router)
-2. תוסיפו את `@ngrx/store` ע"י `npx @angular/cli add @ngrx/store@latest`
-3. תוסיפו את `@ngrx/schematics` ע"י `npx @angular/cli add @ngrx/schematics@latest`
-4. תוסיפו את `@ngrx/store-devtools` ע"י `npx @angular/cli add @ngrx/store-devtools@latest`
-5. תצרו קומפוננטה עבור ה-login כולל שלוש input אחד ל-`username` ואחד `password` ואחד ל-`submit` ותצרו action שהוא asynchronous ב-`@ngrx/store` עבור login כאשר success אמור להחזיר `firstName`, `lastName` ו-`email`
+1. תצרו פרויקט Angular חדש ע"י `npx @angular/cli@12 new`{dir=ltr} (Angular 13 עדיין לא נתמך ע"י ngrx, אפשר להשתמש ב-CSS רגיל ולהוסיף את ה-router)
+2. תוסיפו את `@ngrx/store`{dir=ltr} ע"י `npx @angular/cli add @ngrx/store@latest`{dir=ltr}
+3. תוסיפו את `@ngrx/schematics`{dir=ltr} ע"י `npx @angular/cli add @ngrx/schematics@latest`{dir=ltr}
+4. תוסיפו את `@ngrx/store-devtools`{dir=ltr} ע"י `npx @angular/cli add @ngrx/store-devtools@latest`{dir=ltr}
+
+# תרגיל - עבודה
+
+5. תצרו קומפוננטה עבור ה-login כולל שלוש input אחד ל-`username` ואחד `password` ואחד ל-`submit` ותצרו action שהוא asynchronous ב-`@ngrx/store`{dir=ltr} עבור login כאשר success אמור להחזיר `firstName`, `lastName` ו-`email`
 6. תבדוק ב-Redux DevTools כי ה-action הורץ בלחיצה על כפתור ה-submit
 
 ## Effects
 
-- משתמשים ב-`@ngrx/effect`
+- משתמשים ב-`@ngrx/effect`{dir=ltr}
 - ```ts
   import { Injectable } from "@angular/core"
   import {
