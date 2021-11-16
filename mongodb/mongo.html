@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>יום ראשון: MongoDB</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="../fix-rtl.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">יום ראשון: MongoDB</h1>
+</section>
+
+<section>
+<section id="בסיסי-נתונים" class="title-slide slide level1">
+<h1>בסיסי נתונים</h1>
+
+</section>
+<section id="מה-זה-בסיס-נתונים" class="slide level2">
+<h2>מה זה בסיס נתונים?</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">מקום לשמור נתוני האפליקציה</li>
+<li class="fragment">לא באחריותך</li>
+<li class="fragment">מאפשר סידור של הנתונים</li>
+<li class="fragment">לכל סביבה יש:
+<ul>
+<li class="fragment">מנוע (שרת) שאיתו נגישים לנתונים</li>
+<li class="fragment">לפחות בסיס הנתונים אחד (כלומר מארז הנתונים)</li>
+</ul></li>
+<li class="fragment">דואג לביצועים ע”י מתמטיקה מתקדמת</li>
+<li class="fragment">לא ממש “דבר” אחד אלא קטגוריה</li>
+</ul>
+</div>
+</section>
+<section id="למה-להשתמש-בה" class="slide level2">
+<h2>למה להשתמש בה?</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">להוציא אחריות על נתונים מאפליקציות</li>
+<li class="fragment">להפריד בין נתונים לבין פונקציונליות אפליקטיבית</li>
+<li class="fragment">לשפר ביצועים של אפליקציות</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="sql-ו-nosql" class="title-slide slide level1">
+<h1>SQL ו-NoSQL</h1>
+
+</section>
+<section id="מה-זה-sql" class="slide level2">
+<h2>מה זה SQL?</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">Structured Query Language</li>
+<li class="fragment">שפה בה נגישים לבסיס נתונים רלציוני (טבלאי-מקושרת)</li>
+<li class="fragment">Declarative</li>
+<li class="fragment">טבלאות מקושרים</li>
+<li class="fragment">הרחבות לפי בסיס נתונים ספציפי</li>
+<li class="fragment">אפשר להשתמש בעמוד NoSQL בבסיס נתונים SQL</li>
+</ul>
+</div>
+</section>
+<section id="מה-זה-nosql" class="slide level2">
+<h2>מה זה NoSQL?</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">Non-Structured Query Language</li>
+<li class="fragment">כלומר כל בסיס נתונים שלא מדבר SQL</li>
+<li class="fragment">דוגמאות:
+<ul>
+<li class="fragment">Document (הסבר בהמשיך)</li>
+<li class="fragment">Key-Value (כמו Redis)</li>
+<li class="fragment">Graph</li>
+</ul></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="document-database" class="title-slide slide level1">
+<h1>Document database</h1>
+
+</section>
+<section id="מה-זה-document-database" class="slide level2">
+<h2>מה זה document database?</h2>
+<p>(5 דקות)</p>
+<p><img data-src="https://webimages.mongodb.com/_com_assets/cms/kq6vbsduopjtnfu32-relational_vs_mdb.png" title="בסיס נתונים מבוסס מסמכים (~JSON)" height="500" /></p>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<p><img data-src="data:image/jpeg;base64,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" title="Ogres have layers" /></p>
+</section>
+<section id="למה-להשתמש-ב-document-database" class="slide level2">
+<h2>למה להשתמש ב-document database?</h2>
+<p>(10 דקות)</p>
+<div>
+<ul>
+<li class="fragment">לא צריכים לכתוב SQL</li>
+<li class="fragment">מודל טבעי לקישורים one-to-many בין ישויות</li>
+<li class="fragment">אפשר עדיין להשתמש במצביעים בין מסמכים</li>
+</ul>
+</div>
+</section></section>
+<section id="הפסקה-10-דקות" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקה: 10 דקות</h1>
+
+</section>
+
+<section>
+<section id="מה-זה-mongodb" class="title-slide slide level1">
+<h1>מה זה MongoDB?</h1>
+
+</section>
+<section id="mongodb-במשפט" class="slide level2">
+<h2>MongoDB במשפט</h2>
+<p>(5 דקות)</p>
+<p>בסיס נתונים NoSQL עם קוד פתוח מסוג document database שמשתמש במסמכי BSON</p>
+</section>
+<section id="bson" class="slide level2">
+<h2>BSON</h2>
+<p>(10 דקות)</p>
+<div>
+<ul>
+<li class="fragment"><p>פורמט בינארי דומה ל-JSON</p></li>
+<li class="fragment"><p>סוגי נתונים נוספים:</p>
+<div dir="ltr">
+<ul>
+<li class="fragment">ObjectID</li>
+<li class="fragment">Double</li>
+<li class="fragment">32-bit integer (int)</li>
+<li class="fragment">64-bit integer (long)</li>
+</ul>
+</div>
+<ul>
+<li class="fragment">תאריכים</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="objectid" class="slide level2">
+<h2>ObjectID</h2>
+<p>(10 דקות)</p>
+<div>
+<ul>
+<li class="fragment">טיפוס מזהה של מסמכי MongoDB</li>
+<li class="fragment">מורכב מ-12 בתים:
+<ul>
+<li class="fragment">4 בתים עם הזמן (timestamp)</li>
+<li class="fragment">5 בתים אקראיים</li>
+<li class="fragment">3 בתים צבורים ממספר אקראי</li>
+</ul></li>
+<li class="fragment">תפקידו לדאוג לשוני בין מסמכים הנוצרים במחשים שונים</li>
+<li class="fragment">מאפשר scaling של cluster (כלומר horizontal scaling)</li>
+</ul>
+</div>
+</section>
+<section id="collection" class="slide level2">
+<h2>Collection</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">Collection הוא מארז של מסמכים</li>
+<li class="fragment">מקביל ל-table בבסיס נתונים רלציוני</li>
+</ul>
+</div>
+</section>
+<section id="cursor" class="slide level2">
+<h2>Cursor</h2>
+<p>(10 דקות)</p>
+<div>
+<ul>
+<li class="fragment">כמעט כל שאילת שמבצעים (ב-driver) מחזיר cursor</li>
+<li class="fragment">הוא iterable (כלומר אפשר לעבור עליו בלולא)</li>
+<li class="fragment">המסמכים עצמם רק הוחזרו ברגע שעוברים על cursor</li>
+<li class="fragment">אפשר לבקש את רק גודל השיאלת (שיטת size)</li>
+<li class="fragment">אפשר לסדר מסמכים ב-cursor (שיטת sort)</li>
+<li class="fragment">אפשר גם לדלג (שיטת skip) אבל לא כדאי</li>
+</ul>
+</div>
+</section>
+<section id="replica-set" class="slide level2">
+<h2>Replica set</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment">בכל שימוש ב-production של בסיס נתונים מומלץ שרידות</li>
+<li class="fragment">אפשר לבזר עומס על קריאות ע”י replica set</li>
+<li class="fragment"><img data-src="https://docs.mongodb.com/manual/images/replica-set-read-write-operations-primary.bakedsvg.svg" height="300" /></li>
+</ul>
+</div>
+</section></section>
+<section id="הפסקה-רבע-שעה" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקה: רבע שעה</h1>
+
+</section>
+
+<section>
+<section id="crud" class="title-slide slide level1">
+<h1>CRUD</h1>
+<p><img data-src="data:image/png;base64,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" /></p>
+</section>
+<section id="create" class="slide level2">
+<h2>Create</h2>
+<p>(5 דקות)</p>
+<p><img data-src="https://docs.mongodb.com/manual/images/crud-annotated-mongodb-insertOne.bakedsvg.svg" /></p>
+</section>
+<section id="read" class="slide level2">
+<h2>Read</h2>
+<p>(5 דקות)</p>
+<div>
+<ul>
+<li class="fragment"><img data-src="https://docs.mongodb.com/manual/images/crud-annotated-mongodb-find.bakedsvg.svg" /></li>
+<li class="fragment">שימו לב ל-projection ו-limit</li>
+</ul>
+</div>
+</section>
+<section id="update" class="slide level2">
+<h2>Update</h2>
+<p>(5 דקות)</p>
+<p><img data-src="https://docs.mongodb.com/manual/images/crud-annotated-mongodb-updateMany.bakedsvg.svg" /></p>
+</section>
+<section id="delete" class="slide level2">
+<h2>Delete</h2>
+<p>(5 דקות)</p>
+<p><img data-src="https://docs.mongodb.com/manual/images/crud-annotated-mongodb-deleteMany.bakedsvg.svg" /></p>
+</section></section>
+<section>
+<section id="sharding" class="title-slide slide level1">
+<h1>Sharding</h1>
+<p>(10 דקות)</p>
+<div>
+<ul>
+<li class="fragment">דרך sharding אפשר לבזר את התוכן של collection מסויים</li>
+<li class="fragment">מגדירים שיטת פיצול של shards</li>
+<li class="fragment">מאשפרת horizontal scaling של קריאות ו- <strong>גם של כתיבות</strong></li>
+<li class="fragment">פיזור עומסים וזמינות גובהה ע”י replica sets</li>
+</ul>
+</div>
+</section>
+<section id="תמונה-ל-sharding" class="slide level2">
+<h2>תמונה ל-sharding</h2>
+<p><img data-src="https://webimages.mongodb.com/_com_assets/cms/ko1z24yxvpdf2gt1j-mongodb-shard-keys-and-chunks3.png?auto=format%2Ccompress" /></p>
+</section></section>
+<section id="הפסקת-צהריים-שעה" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקת צהריים: שעה</h1>
+
+</section>
+
+<section>
+<section id="index" class="title-slide slide level1">
+<h1>Index</h1>
+<p>(רבע שעה)</p>
+<div>
+<ul>
+<li class="fragment">בבסיס נתונים עלול להיות בעיות ביצועים</li>
+<li class="fragment">אפשר לשפר ביצועי שיאלתות ע”י index</li>
+<li class="fragment"><img data-src="https://d117h1jjiq768j.cloudfront.net/images/default-source/default-album/tutorialimages-album/odbc-album/ruseindxa.gif?sfvrsn=1" /></li>
+<li class="fragment">ב-MongoDB אפשר ליצור compound indexes</li>
+</ul>
+</div>
+</section>
+<section id="דוגמאת-index" class="slide level2">
+<h2>דוגמאת index</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Products collection</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;_id&quot;</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="op">...</span>)<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;item&quot;</span><span class="op">:</span> <span class="st">&quot;Banana&quot;</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;category&quot;</span><span class="op">:</span> [<span class="st">&quot;food&quot;</span><span class="op">,</span> <span class="st">&quot;produce&quot;</span><span class="op">,</span> <span class="st">&quot;grocery&quot;</span>]<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;location&quot;</span><span class="op">:</span> <span class="st">&quot;4th Street Store&quot;</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;stock&quot;</span><span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;type&quot;</span><span class="op">:</span> <span class="st">&quot;cases&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Create compound index</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">products</span><span class="op">.</span><span class="fu">createIndex</span>( { <span class="st">&quot;item&quot;</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;stock&quot;</span><span class="op">:</span> <span class="dv">1</span> } )</span></code></pre></div>
+<ul>
+<li>אפשר ליצור <a href="https://docs.mongodb.com/manual/text-search/">text indexes</a> לחיפוש בסיסי</li>
+</ul>
+</section></section>
+<section>
+<section id="streams" class="title-slide slide level1">
+<h1>Streams</h1>
+<p>(10 דקות)</p>
+<ul>
+<li>אפשר לעקוב אחרי collection עם stream</li>
+</ul>
+</section>
+<section id="דוגמאת-stream" class="slide level2">
+<h2>דוגמאת stream</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create change stream for inventory collection</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> collection <span class="op">=</span> db<span class="op">.</span><span class="fu">collection</span>(<span class="st">&#39;inventory&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> changeStream <span class="op">=</span> collection<span class="op">.</span><span class="fu">watch</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>changeStream<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;change&#39;</span><span class="op">,</span> next <span class="kw">=&gt;</span> {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// process next document</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+</section></section>
+<section>
+<section id="query-operators" class="title-slide slide level1">
+<h1>Query operators</h1>
+<ul>
+<li>פועלות האפשריות לבצע בשיאלות רגילות</li>
+<li>נעבר על כמה דוגמאות:</li>
+</ul>
+</section>
+<section id="השווה-10-דקות" class="slide level2">
+<h2>השווה (10 דקות)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>פעולה</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code dir="ltr">$eq</code></td>
+<td>זהה לבלי Operator חוץ מהמקרא בה בחיפוש הוא RegEx</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">$gt</code></td>
+<td>השדה גדול מ-x</td>
+</tr>
+<tr class="odd">
+<td><code dir="ltr">$gte</code></td>
+<td>השדה שווה או גדול מ-x</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">$in</code></td>
+<td>השדה במערך x</td>
+</tr>
+<tr class="odd">
+<td><code dir="ltr">$lt</code></td>
+<td>השדה קטן מ-x</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="השווה-2" class="slide level2">
+<h2>השווה (2)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>פעולה</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code dir="ltr">$lte</code></td>
+<td>השדה שווה או קטן מ-x</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">$ne</code></td>
+<td>לא שווה</td>
+</tr>
+<tr class="odd">
+<td><code dir="ltr">$nin</code></td>
+<td>השדה לא במערך x</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="לוגית-5-דקות" class="slide level2">
+<h2>לוגית (5 דקות)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>פעולה</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code dir="ltr">$and</code></td>
+<td>מבצע שיאלת כאשר שני התנאים תקפים</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">$not</code></td>
+<td>מבצע הפכה של התנאים מתחתו</td>
+</tr>
+<tr class="odd">
+<td><code dir="ltr">$nor</code></td>
+<td>מבצע שיאלת כאשר שני התנאים לא תקפים</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">$or</code></td>
+<td>מבצע שיאלת כאשר אחד מהתנאים תקפים</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section id="הפסקה-20-דקות" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקה: 20 דקות</h1>
+
+</section>
+
+<section>
+<section id="ולידציה-רבע-שעה" class="title-slide slide level1">
+<h1>ולידציה (רבע שעה)</h1>
+<ul>
+<li>ל-MongoDB אין schema</li>
+<li>יש ולידציה</li>
+<li>אפשר לעשות ולידציה מול JSON schema (draft 4)</li>
+</ul>
+</section>
+<section id="דוגמאת-schema" class="slide level2">
+<h2>דוגמאת schema</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> gradesSchema <span class="op">=</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$jsonSchema</span><span class="op">:</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">required</span><span class="op">:</span> [ <span class="st">&quot;name&quot;</span><span class="op">,</span> <span class="st">&quot;major&quot;</span><span class="op">,</span> <span class="st">&quot;gpa&quot;</span> ]<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">properties</span><span class="op">:</span> {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>          <span class="dt">name</span><span class="op">:</span> {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">bsonType</span><span class="op">:</span> <span class="st">&quot;string&quot;</span><span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">description</span><span class="op">:</span> <span class="st">&quot;must be a string and is required&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+</section>
+<section id="דוגמאת-שימוש-ב-schema" class="slide level2">
+<h2>דוגמאת שימוש ב-schema</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create grades collection with validation</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">createCollection</span>( <span class="st">&quot;grades&quot;</span><span class="op">,</span> { <span class="dt">validator</span><span class="op">:</span> { <span class="dt">$jsonSchema</span><span class="op">:</span> gradesSchema } } )</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Or modify an existing collection to add the validation</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="fu">runCommand</span>( { <span class="dt">collMod</span><span class="op">:</span> <span class="st">&quot;grades&quot;</span><span class="op">,</span> <span class="dt">validator</span><span class="op">:</span>{ <span class="dt">$jsonSchema</span><span class="op">:</span> gradesSchema } } )</span></code></pre></div>
+<h3 id="אופציות-לולידציה">אופציות לולידציה</h3>
+<ul>
+<li><a href="https://docs.mongodb.com/manual/core/schema-validation/#existing-documents">אפשר להריץ ולידציה רק על מסמכים שכבר עומדים בולידציה</a></li>
+<li><a href="https://docs.mongodb.com/manual/core/schema-validation/#accept-or-reject-invalid-documents">אפשר רק להתריע בלוגים על כישלון בולידציה ולא למנוע פועלות</a></li>
+</ul>
+</section></section>
+<section>
+<section id="aggregation" class="title-slide slide level1">
+<h1>Aggregation</h1>
+<ul>
+<li>דרך לאסוף/לחבר בין מסמכים</li>
+<li>מתחיל עם collection מסויים</li>
+<li>הכי קל להבין מדוגמאות</li>
+</ul>
+</section>
+<section id="addfields-5-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$addFields (5 mins)</h2>
+<ul>
+<li><div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Scores collection</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">student</span><span class="op">:</span> <span class="st">&quot;Maya&quot;</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">homework</span><span class="op">:</span> [ <span class="dv">10</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span> ]<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">quiz</span><span class="op">:</span> [ <span class="dv">10</span><span class="op">,</span> <span class="dv">8</span> ]<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">extraCredit</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregation pipeline</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">scores</span><span class="op">.</span><span class="fu">aggregate</span>( [</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">$addFields</span><span class="op">:</span> {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">totalHomework</span><span class="op">:</span> { <span class="dt">$sum</span><span class="op">:</span> <span class="st">&quot;$homework&quot;</span> } <span class="op">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">totalQuiz</span><span class="op">:</span> { <span class="dt">$sum</span><span class="op">:</span> <span class="st">&quot;$quiz&quot;</span> }</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">$addFields</span><span class="op">:</span> { <span class="dt">totalScore</span><span class="op">:</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        { <span class="dt">$add</span><span class="op">:</span> [ <span class="st">&quot;$totalHomework&quot;</span><span class="op">,</span> <span class="st">&quot;$totalQuiz&quot;</span><span class="op">,</span> <span class="st">&quot;$extraCredit&quot;</span> ] } }</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  ])</span></code></pre></div></li>
+</ul>
+</section>
+<section id="addfields-output" class="slide level2" dir="ltr">
+<h2 dir="ltr">$addFields output</h2>
+<ul>
+<li><div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;student&quot;</span> <span class="op">:</span> <span class="st">&quot;Maya&quot;</span><span class="op">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;homework&quot;</span> <span class="op">:</span> [ <span class="dv">10</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span> ]<span class="op">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;quiz&quot;</span> <span class="op">:</span> [ <span class="dv">10</span><span class="op">,</span> <span class="dv">8</span> ]<span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;extraCredit&quot;</span> <span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;totalHomework&quot;</span> <span class="op">:</span> <span class="dv">25</span><span class="op">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;totalQuiz&quot;</span> <span class="op">:</span> <span class="dv">18</span><span class="op">,</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;totalScore&quot;</span> <span class="op">:</span> <span class="dv">43</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+</section>
+<section id="match-5-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$match (5 mins)</h2>
+<ul>
+<li><div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Scores collection</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;subject&quot;</span> <span class="op">:</span> <span class="st">&quot;History&quot;</span><span class="op">,</span> <span class="st">&quot;score&quot;</span> <span class="op">:</span> <span class="dv">88</span> }</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregation pipeline</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">scores</span><span class="op">.</span><span class="fu">aggregate</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">score</span><span class="op">:</span> {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">$gt</span><span class="op">:</span> <span class="dv">80</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$count</span><span class="op">:</span> <span class="st">&quot;passing_scores&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div></li>
+</ul>
+</section>
+<section id="match-output" class="slide level2" dir="ltr">
+<h2 dir="ltr">$match output</h2>
+<ul>
+<li><div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;passing_scores&quot;</span> <span class="op">:</span> <span class="dv">4</span> }</span></code></pre></div></li>
+</ul>
+</section>
+<section id="geonear-5-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$geoNear (5 mins)</h2>
+<ul>
+<li><div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregation pipeline</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">places</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">$geoNear</span><span class="op">:</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          <span class="dt">near</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="st">&quot;Point&quot;</span><span class="op">,</span> <span class="dt">coordinates</span><span class="op">:</span> [ <span class="op">-</span><span class="fl">73.99279</span> <span class="op">,</span> <span class="fl">40.719296</span> ] }<span class="op">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="dt">distanceField</span><span class="op">:</span> <span class="st">&quot;dist.calculated&quot;</span><span class="op">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>          <span class="dt">maxDistance</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">query</span><span class="op">:</span> { <span class="dt">category</span><span class="op">:</span> <span class="st">&quot;Parks&quot;</span> }<span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>          <span class="dt">includeLocs</span><span class="op">:</span> <span class="st">&quot;dist.location&quot;</span><span class="op">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>          <span class="dt">spherical</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  ])</span></code></pre></div></li>
+</ul>
+</section>
+<section id="geonear-output" class="slide level2" dir="ltr">
+<h2 dir="ltr">$geoNear output</h2>
+<ul>
+<li><div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;Sara D. Roosevelt Park&quot;</span><span class="op">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;category&quot;</span> <span class="op">:</span> <span class="st">&quot;Parks&quot;</span><span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;location&quot;</span> <span class="op">:</span> {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;type&quot;</span> <span class="op">:</span> <span class="st">&quot;Point&quot;</span><span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;coordinates&quot;</span> <span class="op">:</span> [ <span class="op">-</span><span class="fl">73.9928</span><span class="op">,</span> <span class="fl">40.7193</span> ]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;dist&quot;</span> <span class="op">:</span> {</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;calculated&quot;</span> <span class="op">:</span> <span class="fl">0.9539931676365992</span><span class="op">,</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;location&quot;</span> <span class="op">:</span> {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;type&quot;</span> <span class="op">:</span> <span class="st">&quot;Point&quot;</span><span class="op">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;coordinates&quot;</span> <span class="op">:</span> [ <span class="op">-</span><span class="fl">73.9928</span><span class="op">,</span> <span class="fl">40.7193</span> ]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+</section>
+<section id="group-5-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$group (5 mins)</h2>
+<ul>
+<li><div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Sales collection</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;abc&quot;</span><span class="op">,</span> <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="fu">NumberDecimal</span>(<span class="st">&quot;10&quot;</span>)<span class="op">,</span> <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="fu">NumberInt</span>(<span class="st">&quot;2&quot;</span>)<span class="op">,</span> <span class="st">&quot;date&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2014-03-01T08:00:00Z&quot;</span>) }</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;jkl&quot;</span><span class="op">,</span> <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="fu">NumberDecimal</span>(<span class="st">&quot;20&quot;</span>)<span class="op">,</span> <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="fu">NumberInt</span>(<span class="st">&quot;1&quot;</span>)<span class="op">,</span> <span class="st">&quot;date&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2014-03-01T09:00:00Z&quot;</span>) }</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;abc&quot;</span><span class="op">,</span> <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="fu">NumberDecimal</span>(<span class="st">&quot;10&quot;</span>)<span class="op">,</span> <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="fu">NumberInt</span>(<span class="st">&quot;10&quot;</span>) <span class="op">,</span> <span class="st">&quot;date&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2014-04-04T21:23:13.331Z&quot;</span>) }</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;abc&quot;</span><span class="op">,</span> <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="fu">NumberDecimal</span>(<span class="st">&quot;10&quot;</span>)<span class="op">,</span> <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="fu">NumberInt</span>(<span class="st">&quot;5&quot;</span> ) <span class="op">,</span> <span class="st">&quot;date&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2016-02-06T20:20:13Z&quot;</span>) }</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregation pipeline</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">sales</span><span class="op">.</span><span class="fu">aggregate</span>( [ { <span class="dt">$group</span> <span class="op">:</span> { <span class="dt">_id</span> <span class="op">:</span> <span class="st">&quot;$item&quot;</span> } } ] )</span></code></pre></div></li>
+</ul>
+</section>
+<section id="group-output" class="slide level2" dir="ltr">
+<h2 dir="ltr">$group output</h2>
+<ul>
+<li><div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="st">&quot;abc&quot;</span> }</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="st">&quot;jkl&quot;</span> }</span></code></pre></div></li>
+</ul>
+<div dir="rtl">
+<ul>
+<li>יש עוד אופציות לגבי איך ליצור קבוצה, למשל:
+<ul>
+<li>ממוצאת ערכים נומריים</li>
+<li>הערך הראשון/אחרון מטיפוס מסויים</li>
+<li>סכום ערכים נומריים</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="limit-5-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$limit (5 mins)</h2>
+<ul>
+<li><div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">article</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    { <span class="dt">$limit</span> <span class="op">:</span> <span class="dv">5</span> }</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  ])<span class="op">;</span></span></code></pre></div></li>
+</ul>
+</section></section>
+<section>
+<section id="הפסקה-20-דקות-1" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקה: 20 דקות</h1>
+
+</section>
+<section id="lookup-quarter-hour" class="slide level2" dir="ltr">
+<h2 dir="ltr">$lookup (quarter hour)</h2>
+<div dir="rtl">
+<ul>
+<li>אין Foreign Keys ב-MongoDB</li>
+<li>$lookup מאשפר חיבור בין collections בדומה ל-JOIN ב-SQL (מסוג LEFT OUTER)</li>
+<li>עדיף לא לחבר אלא להכניס נתונים לאותם מסמכים</li>
+</ul>
+</div>
+</section>
+<section id="lookup-example" class="slide level2" dir="ltr">
+<h2 dir="ltr">$lookup example</h2>
+<ul>
+<li><div class="sourceCode" id="cb14"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Order collection</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;almonds&quot;</span><span class="op">,</span> <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="dv">2</span> }</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">3</span>  }</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Inventory collection</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;sku&quot;</span> <span class="op">:</span> <span class="st">&quot;almonds&quot;</span><span class="op">,</span> <span class="st">&quot;description&quot;</span><span class="op">:</span> <span class="st">&quot;product 1&quot;</span><span class="op">,</span> <span class="st">&quot;instock&quot;</span> <span class="op">:</span> <span class="dv">120</span> }</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="st">&quot;sku&quot;</span> <span class="op">:</span> <span class="st">&quot;bread&quot;</span><span class="op">,</span> <span class="st">&quot;description&quot;</span><span class="op">:</span> <span class="st">&quot;product 2&quot;</span><span class="op">,</span> <span class="st">&quot;instock&quot;</span> <span class="op">:</span> <span class="dv">80</span> }</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="st">&quot;sku&quot;</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="st">&quot;description&quot;</span><span class="op">:</span> <span class="st">&quot;Incomplete&quot;</span> }</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">6</span> }</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregate pipeline</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">orders</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">$lookup</span><span class="op">:</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>          <span class="dt">from</span><span class="op">:</span> <span class="st">&quot;inventory&quot;</span><span class="op">,</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>          <span class="dt">localField</span><span class="op">:</span> <span class="st">&quot;item&quot;</span><span class="op">,</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">foreignField</span><span class="op">:</span> <span class="st">&quot;sku&quot;</span><span class="op">,</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">as</span><span class="op">:</span> <span class="st">&quot;inventory_docs&quot;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  ])</span></code></pre></div></li>
+</ul>
+</section>
+<section id="lookup-output" class="slide level2" dir="ltr">
+<h2 dir="ltr">$lookup output</h2>
+<ul>
+<li><div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Output</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;almonds&quot;</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;price&quot;</span> <span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;quantity&quot;</span> <span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;inventory_docs&quot;</span> <span class="op">:</span> [</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;sku&quot;</span> <span class="op">:</span> <span class="st">&quot;almonds&quot;</span><span class="op">,</span> <span class="st">&quot;description&quot;</span> <span class="op">:</span> <span class="st">&quot;product 1&quot;</span><span class="op">,</span> <span class="st">&quot;instock&quot;</span> <span class="op">:</span> <span class="dv">120</span> }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;inventory_docs&quot;</span> <span class="op">:</span> [</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="st">&quot;sku&quot;</span> <span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="st">&quot;description&quot;</span> <span class="op">:</span> <span class="st">&quot;Incomplete&quot;</span> }<span class="op">,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">6</span> }</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+<div dir="ltr">
+<ul>
+<li>שימו לב <code>from</code> collection נדרש להיות לא sharded</li>
+</ul>
+</div>
+</section>
+<section id="lookup-example-2" class="slide level2" dir="ltr">
+<h2 dir="ltr">$lookup example 2</h2>
+<ul>
+<li><div class="sourceCode" id="cb16"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Classes collection</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">_id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">title</span><span class="op">:</span> <span class="st">&quot;Reading is ...&quot;</span><span class="op">,</span> <span class="dt">enrollmentlist</span><span class="op">:</span> [ <span class="st">&quot;giraffe2&quot;</span><span class="op">,</span> <span class="st">&quot;pandabear&quot;</span><span class="op">,</span> <span class="st">&quot;artie&quot;</span> ]<span class="op">,</span> <span class="dt">days</span><span class="op">:</span> [<span class="st">&quot;M&quot;</span><span class="op">,</span> <span class="st">&quot;W&quot;</span><span class="op">,</span> <span class="st">&quot;F&quot;</span>] }</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Members collection</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">_id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;artie&quot;</span><span class="op">,</span> <span class="dt">joined</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2016-05-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&quot;A&quot;</span> }</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">_id</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;giraffe&quot;</span><span class="op">,</span> <span class="dt">joined</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2017-05-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&quot;D&quot;</span> }</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">_id</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;pandabear&quot;</span><span class="op">,</span> <span class="dt">joined</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2018-12-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&quot;A&quot;</span> }</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">_id</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;giraffe2&quot;</span><span class="op">,</span> <span class="dt">joined</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2018-12-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&quot;D&quot;</span> }</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregation pipeline</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">classes</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$lookup</span><span class="op">:</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              <span class="dt">from</span><span class="op">:</span> <span class="st">&quot;members&quot;</span><span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>              <span class="dt">localField</span><span class="op">:</span> <span class="st">&quot;enrollmentlist&quot;</span><span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>              <span class="dt">foreignField</span><span class="op">:</span> <span class="st">&quot;name&quot;</span><span class="op">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>              <span class="dt">as</span><span class="op">:</span> <span class="st">&quot;enrollee_info&quot;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  ])</span></code></pre></div></li>
+</ul>
+</section>
+<section id="lookup-output-2" class="slide level2" dir="ltr">
+<h2 dir="ltr">$lookup output 2</h2>
+<ul>
+<li><div class="sourceCode" id="cb17"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Output</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;title&quot;</span> <span class="op">:</span> <span class="st">&quot;Reading is ...&quot;</span><span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;enrollmentlist&quot;</span> <span class="op">:</span> [ <span class="st">&quot;giraffe2&quot;</span><span class="op">,</span> <span class="st">&quot;pandabear&quot;</span><span class="op">,</span> <span class="st">&quot;artie&quot;</span> ]<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;days&quot;</span> <span class="op">:</span> [ <span class="st">&quot;M&quot;</span><span class="op">,</span> <span class="st">&quot;W&quot;</span><span class="op">,</span> <span class="st">&quot;F&quot;</span> ]<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;enrollee_info&quot;</span> <span class="op">:</span> [</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;artie&quot;</span><span class="op">,</span> <span class="st">&quot;joined&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2016-05-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="st">&quot;status&quot;</span> <span class="op">:</span> <span class="st">&quot;A&quot;</span> }<span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;pandabear&quot;</span><span class="op">,</span> <span class="st">&quot;joined&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2018-12-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="st">&quot;status&quot;</span> <span class="op">:</span> <span class="st">&quot;A&quot;</span> }<span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="st">&quot;name&quot;</span> <span class="op">:</span> <span class="st">&quot;giraffe2&quot;</span><span class="op">,</span> <span class="st">&quot;joined&quot;</span> <span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">&quot;2018-12-01T00:00:00Z&quot;</span>)<span class="op">,</span> <span class="st">&quot;status&quot;</span> <span class="op">:</span> <span class="st">&quot;D&quot;</span> }</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+</section>
+<section id="unwind-10-mins" class="slide level2" dir="ltr">
+<h2 dir="ltr">$unwind (10 mins)</h2>
+<div>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb18"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Inventory collection</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;ABC1&quot;</span><span class="op">,</span> <span class="dt">sizes</span><span class="op">:</span> [ <span class="st">&quot;S&quot;</span><span class="op">,</span> <span class="st">&quot;M&quot;</span><span class="op">,</span> <span class="st">&quot;L&quot;</span>] }</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Aggregate pipeline</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="at">inventory</span><span class="op">.</span><span class="fu">aggregate</span>( [ { <span class="dt">$unwind</span> <span class="op">:</span> <span class="st">&quot;$sizes&quot;</span> } ] )</span></code></pre></div></li>
+<li class="fragment"><div class="sourceCode" id="cb19"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Output</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;ABC1&quot;</span><span class="op">,</span> <span class="st">&quot;sizes&quot;</span> <span class="op">:</span> <span class="st">&quot;S&quot;</span> }</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;ABC1&quot;</span><span class="op">,</span> <span class="st">&quot;sizes&quot;</span> <span class="op">:</span> <span class="st">&quot;M&quot;</span> }</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  { <span class="st">&quot;_id&quot;</span> <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;item&quot;</span> <span class="op">:</span> <span class="st">&quot;ABC1&quot;</span><span class="op">,</span> <span class="st">&quot;sizes&quot;</span> <span class="op">:</span> <span class="st">&quot;L&quot;</span> }</span></code></pre></div></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="acid" class="title-slide slide level1">
+<h1>ACID</h1>
+<ul>
+<li>רשאי תיבות לפונקציונליות של transactions</li>
+<li><strong>A</strong>tomicity</li>
+<li><strong>C</strong>onsistency</li>
+<li><strong>I</strong>solation</li>
+<li><strong>D</strong>urability</li>
+</ul>
+</section>
+<section id="transactions" class="slide level2">
+<h2>Transactions</h2>
+<p>(5 דקות)</p>
+<p><img data-src="https://vladmihalcea.com/wp-content/uploads/2014/01/transaction-workflow1.gif" /></p>
+<p>מחסנית של פועלות לביצוע יחד</p>
+</section>
+<section id="atomicity" class="slide level2">
+<h2>Atomicity</h2>
+<p>(5 דקות)</p>
+<p>כל הפועלות שבוצעו בוצעו בשלמם או הוחזרו למצב קודמם בשלמם</p>
+</section>
+<section id="consistency" class="slide level2">
+<h2>Consistency</h2>
+<p>(5 דקות)</p>
+<p>מצב בסיס הנתונים לא יגיע למצב שלא עומד בתיקניות שהוגדר (schema)</p>
+</section>
+<section id="isolation" class="slide level2">
+<h2>Isolation</h2>
+<p>(5 דקות)</p>
+<p>מיקבול של transactions יביא את בסיס הנתונים לאותו מצב שבו הוא יגיע עם הם יופעלו אחד-אחרי-השני</p>
+</section>
+<section id="durability" class="slide level2">
+<h2>Durability</h2>
+<p>(5 דקות)</p>
+<p>Transactions שנשמר ישומר כמו שהוא גם במידע וחומרה קורסת (למשל: קריסת חשמל)</p>
+</section></section>
+<section id="הפסקה-10-דקות-1" class="title-slide slide level1" data-visibility="uncounted">
+<h1 data-visibility="uncounted">הפסקה: 10 דקות</h1>
+
+</section>
+
+<section>
+<section id="תרגיל-שעה-וחצי" class="title-slide slide level1">
+<h1>תרגיל (שעה וחצי)</h1>
+
+</section>
+<section id="התחלה-חצי-שעה" class="slide level2">
+<h2>התחלה (~חצי שעה)</h2>
+<ol type="1">
+<li><a href="https://developers.redhat.com/developer-sandbox/get-started#">הכנסו לחשבון ה-OpenShift</a> שלכם והריצו את ה-CLI של MongoDB.</li>
+<li>תצור collection חדש עבור שמירת חחליות. החלליות מכילות עד 6 היגויום (מספר שרורתי) ועד 2 שיטות דחף (כדי לא לבזבז משקל). המסמכים. משקל חללית לא תעלה מעל 200,000 קילוגרם. עליך ליצור ולידציה עבור זה.</li>
+</ol>
+</section>
+<section id="יצירת-נתונים-רבע-שעה" class="slide level2">
+<h2>יצירת נתונים (~רבע שעה)</h2>
+<ol start="3" type="1">
+<li>תצור שלוש חלליות:
+<ol type="1">
+<li>ממונע ע”י מנוע עם דלק נוזלי ואלטרומגנטי עם 4 היגויים עם משקל סה”כ של 100,000 קילוגרם.</li>
+<li>ממונע ע”י מנוע עם דלק נוזלי ודלק מוצק עם 6 היגויים עם משקל סה”כ של 200,000 קילוגרם.</li>
+<li>ממונע ע”י מנוע עם דלק מוצק ואלטרומגנטי עם 5 היגויים עם משקל סה”כ של 150,000 קילוגרם.</li>
+<li>ממונע ע”י מנוע עם דלק מוצק ודלק נוזלי עם 7 היגויים עם משקל סה”כ של 250,000 קילוגרם. תברר כי מסמך זה לא הוכנס בהצלחה.</li>
+</ol></li>
+</ol>
+</section>
+<section id="הארכת-נתונים-רבע-שעה" class="slide level2">
+<h2>הארכת נתונים (~רבע שעה)</h2>
+<ol start="4" type="1">
+<li>תארוך את החללית עם משקל 150,000 קילוגרם (ללא שימוש בשדות אחרות) כדי להחליף לו את המנועים שלו למנוע אחד מבוסס anti-matter. משקלו יורד ל20,000 קילוגרם.</li>
+<li>תמחוק את החללית עם 5 היגויים.</li>
+</ol>
+</section>
+<section id="אגרגציה-חצי-שעה" class="slide level2">
+<h2>אגרגציה (~חצי שעה)</h2>
+<ol start="6" type="1">
+<li>תיצור סכום של משקלם של כל החלליות ע”י אגרגציה.</li>
+</ol>
+</section>
+<section id="אם-נשאר-לכם-זמן-transactions" class="slide level2">
+<h2>אם נשאר לכם זמן: Transactions</h2>
+<ol start="7" type="1">
+<li>תארוך את שני החלליות הקיימות לשדרג אותם עם חומרים חדשים כך שמשקלם יורד ב10%.</li>
+</ol>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>יום שלישי: JS מתקדם</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="../fix-rtl.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">יום שלישי: JS מתקדם</h1>
+</section>
+
+<section id="לוז-בוקר" class="title-slide slide level1">
+<h1>לו”ז בוקר</h1>
+<table>
+<thead>
+<tr class="header">
+<th>שעה</th>
+<th>נושא</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>התכנסות</td>
+<td>9:00-9:15</td>
+</tr>
+<tr class="even">
+<td><a href="#/מנוע-של-js">מנוע של JS</a></td>
+<td>9:15-9:45</td>
+</tr>
+<tr class="odd">
+<td><a href="#/נושא-שולי-לולאות-for">לולאות <code class="sourceCode javascript"><span class="cf">for</span></code></a></td>
+<td>10:00-10:15</td>
+</tr>
+<tr class="even">
+<td><a href="#/תכנות-פונקציונאלי">תכנות פונקציונאלי</a></td>
+<td>10:30-11:00</td>
+</tr>
+<tr class="odd">
+<td><a href="#/שיטות-immutable-על-מערך">שיטות immutable על מערך</a></td>
+<td>11:15-11:30</td>
+</tr>
+<tr class="even">
+<td>הפקסת צהריים</td>
+<td>11:30-13:00</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section id="לוז-צהריים" class="title-slide slide level1">
+<h1>לו”ז צהריים</h1>
+<table>
+<thead>
+<tr class="header">
+<th>שעה</th>
+<th>נושא</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#/בחינת-ביצועים-שיפורם-ודיבוג-ב-js">בחינת ביצועים, שיפורם ודיבוג ב-JS</a></td>
+<td>13:00-13:30</td>
+</tr>
+<tr class="even">
+<td><a href="#/the-event-loop">The Event Loop</a></td>
+<td>13:45-14:15</td>
+</tr>
+<tr class="odd">
+<td><a href="#/תכולות-מתקדמות">תכולות מתקדמות</a></td>
+<td>14:30-15:15</td>
+</tr>
+<tr class="even">
+<td><a href="#/איטרציה">איטרציה</a></td>
+<td>15:30-16:00</td>
+</tr>
+<tr class="odd">
+<td><a href="#/שגיאות-אופרטיביות-לעומת-תיכנותיות">שגיאות</a></td>
+<td>16:15-16:30</td>
+</tr>
+<tr class="even">
+<td><a href="#/progressive-web-apps---pwas">Progressive Web Applications</a></td>
+<td>16:30-17:00</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<section id="מנוע-של-js" class="title-slide slide level1">
+<h1>מנוע של JS</h1>
+<ul>
+<li class="fragment">שפת JS מומש ע”י מנועים שונות</li>
+<li class="fragment">פעם הסטנדרט לא היה מומש באותה צורה</li>
+<li class="fragment">היום יש רק 3 מנועים נפוצים: V8, JavaScriptCore, SpiderMonkey</li>
+</ul>
+</section>
+<section id="v8" class="slide level2 v8-slide">
+<h2 class="v8-slide">V8</h2>
+<p><img data-src="https://v8.dev/_img/v8-outline.svg" height="150" /></p>
+<div class="v8">
+<ul>
+<li class="fragment">מנוע של Chrome</li>
+<li class="fragment">גם מנוע של Node.JS, Deno ושל Electron</li>
+<li class="fragment">רשמית רץ על x64, IA-32 ו-ARM</li>
+<li class="fragment">יש לו interpreter נקרא Ignition</li>
+<li class="fragment">יש לו JIT compiler בשם TurboFan</li>
+<li class="fragment">יש לו Garbage Collector</li>
+</ul>
+</div>
+</section>
+<section id="just-in-time-compilation-jit" class="slide level2" dir="ltr">
+<h2 dir="ltr">Just In Time Compilation (JIT)</h2>
+<div dir="rtl">
+<ul>
+<li class="fragment">מקמפל בזמן ריצה</li>
+<li class="fragment">משפר ביצועים לעומת interpreter בלבד</li>
+</ul>
+</div>
+<aside class="notes">
+<p>פולי קפה + מים + סוכר + חלק = כוס קפה מוכנה מכונת קפה = Interpretation קפסולות = Compiled קנקן קפה = JIT פעם V8 היה משתמש בכמה JITים שונים וב-interpreter יותר verbose אבל החליטו כי הזיכרון שהוא תפס היה יותר מדי ותהליך ה-JIT היה איטי יותר עקב צורך בפרסור הקוד פעמיים </slide></p>
+</section>
+<section id="ignition" class="slide level2 hide-title">
+<h2 class="hide-title">Ignition</h2>
+<p><img data-src="https://v8.dev/_img/v8-ignition-outline.svg" height="150" /></p>
+</section>
+<section id="garbage-collector-gc" class="slide level2" dir="ltr">
+<h2 dir="ltr">Garbage Collector (GC)</h2>
+<div dir="rtl">
+<ul>
+<li class="fragment">ניהול זיכרון אוטומטית</li>
+<li class="fragment">אוסף ומשמיד “זבל”</li>
+</ul>
+</div>
+<aside class="notes">
+זבל = משנתים/זיכרון לא בשימוש
+</aside>
+</section></section>
+<section>
+<section id="נושא-שולי-לולאות-for" class="title-slide slide level1">
+<h1>נושא שולי:<br/> לולאות <code class="sourceCode javascript"><span class="cf">for</span></code></h1>
+<ul>
+<li class="fragment">יש 4 דרכים שונות לעבור על רשימה ב-JS בעלי המילה for</li>
+<li class="fragment"><code class="sourceCode javascript"><span class="cf">for</span></code> רגיל, <code class="sourceCode javascript"><span class="cf">for</span> _ <span class="kw">in</span> _</code>, <code class="sourceCode javascript"><span class="cf">for</span> _ <span class="kw">of</span> _</code>, <code class="sourceCode javascript" dir="ltr">_<span class="op">.</span><span class="fu">forEach</span>(fn)</code></li>
+</ul>
+</section>
+<section id="for-רגיל" class="slide level2">
+<h2><code class="sourceCode javascript"><span class="cf">for</span></code> רגיל</h2>
+<ul>
+<li class="fragment">מבוסס על אורך הרשימה</li>
+<li class="fragment"><div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i<span class="op">;</span> i <span class="op">&lt;=</span> list<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> item <span class="op">=</span> list[i]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+כלומר החייל שלא יכול להגדיל ראש ומבקש הוראות מפורשות
+</aside>
+</section>
+<section id="for-_-in-_" class="slide level2">
+<h2><code class="sourceCode javascript" dir="ltr"><span class="cf">for</span> _ <span class="kw">in</span> _</code></h2>
+<ul>
+<li class="fragment">מבוסס על keys של object (ומערך הוא object)</li>
+<li class="fragment"><div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="kw">in</span> list) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> item <span class="op">=</span> list[i]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+תחשבו על זה שאתה מפרק את הobject ועובר על חלקיו לא עובר על מפתחות שהן Symbols
+</aside>
+</section>
+<section id="for-_-of-_" class="slide level2">
+<h2><code class="sourceCode javascript" dir="ltr"><span class="cf">for</span> _ <span class="kw">of</span> _</code></h2>
+<ul>
+<li class="fragment">מבוסס על iteration</li>
+<li class="fragment"><div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="kw">in</span> list) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> item <span class="op">=</span> list[i]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+כלומר האינויטיבי
+</aside>
+</section>
+<section id="foreachfn" class="slide level2">
+<h2><code class="sourceCode javascript" dir="ltr">_<span class="op">.</span><span class="fu">forEach</span>(fn)</code></h2>
+<ul>
+<li class="fragment">מבוסס על iteration ו-callbacks</li>
+<li class="fragment"><div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  list<span class="op">.</span><span class="fu">forEach</span>((item) <span class="kw">=&gt;</span> ___)</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+כלומר הוראות לפני, רשימה אחרי
+</aside>
+</section></section>
+<section>
+<section id="תכנות-פונקציונאלי" class="title-slide slide level1">
+<h1>תכנות פונקציונאלי</h1>
+<ul>
+<li class="fragment">תפיסת תכנות שונה מאוד מאשר OOP מבוססת פונקציות</li>
+<li class="fragment">פונקיות מקבלות פוקניות כפרמטרים כדי לעשות specialization של התהגותו</li>
+<li class="fragment">אפשר לשמור פונקציה במשתנה ולהעביר ולחזיר פונקציות מפונקציות אחרות</li>
+</ul>
+<aside class="notes">
+איך היית ממדל מפעל הכי טוב בתכנות? יש לו קלט ופלט על קו הייצור טבח = פונקציה החיצונית (המקבל הוראות מפורשות) מתכנון = פונקציה הפנימית (ההוראות המפורשות)
+</aside>
+</section>
+<section id="פונקציות-טהורות-pure-fns" class="slide level2 pure-slide">
+<h2 class="pure-slide">פונקציות טהורות (Pure fns)</h2>
+<p><img data-src="https://fthmb.tqn.com/hu9DwN15l4ci0hZDqEoJBp61R0A=/6044x4244/filters:fill(auto,1)/night-diamond-102635591-58a8f02a5f9b58a3c950a6a5.jpg" class="borderless" height="75" /></p>
+<ul>
+<li class="fragment">פונקציה שפלטיה לא תלויים בשום דבר חוץ מקלטיה ואינה נוגעת במשאבים מחוץ לסקופ אחריותיה</li>
+<li class="fragment">כלומר, פונקיצה שאינה “מזוהמת” משאר הקוד/מידע/נתונים בעולם</li>
+<li class="fragment">והפונקציה אינה גורמת להשפעות צד (כלומר side-effects)</li>
+<li class="fragment">בהגדרה אין לגישה לזיכרון הוגדר מחוץ לפונקציה או קריאות ל-I/O מכל סוג שהוא</li>
+</ul>
+<aside class="notes">
+מה הן דוגמאות של פונקציות שהן לא pure?
+</aside>
+</section>
+<section id="immutability" class="slide level2">
+<h2>Immutability</h2>
+<p>לא משתנה בזמן, כלומר אחרי הגדרה קבועה לאורך הרצת האפליקציה</p>
+<aside class="notes">
+משתנים קבועים (לא רק const שזה רק מצביע קבוע, אלא משתנים שהם immutable) הם יותר קלים לדבג זה כי אפשר לדעת מאוד בקלות איפה בעיות בזה שמשתנה היא שם לאזור מסויים בקוד ולנתונים קבועים מסויימים נתונים הקבועים האלו יכולים להיות שונים תלוי בקלט הניתן לאפליקציה
+</aside>
+</section>
+<section id="currying" class="slide level2">
+<h2>Currying</h2>
+<ul>
+<li class="fragment"><img data-src="https://i1.wp.com/cooktogether.com/pinpics/uploads/2018/10/homemade-curry-powder.jpg?ssl=1" class="borderless" height="200" /></li>
+<li class="fragment">פונקציה שמחזירה פונקציה</li>
+<li class="fragment">מאפשר ספציאליזציה של פונקציות</li>
+<li class="fragment"><div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> createLog <span class="op">=</span> (level) <span class="kw">=&gt;</span> msg) <span class="kw">=&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`[</span><span class="sc">${</span>level<span class="sc">}</span><span class="vs">] msg`</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> logInfo <span class="op">=</span> <span class="fu">createLog</span>(<span class="st">&quot;INFO&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logInfo</span>(<span class="st">&quot;test&quot;</span>) <span class="co">// Logs &quot;[INFO] test&quot;</span></span></code></pre></div></li>
+</ul>
+<aside class="notes">
+<ul>
+<li class="fragment">Called this way because “ingredients” are mixed in, one-by-one
+<ul>
+<li class="fragment">You can use this technique to perform pre-processing steps on pairs on ingredients to improve performance</li>
+</ul></li>
+</ul>
+</aside>
+</section></section>
+<section>
+<section id="שיטות-immutable-על-מערך" class="title-slide slide level1">
+<h1>שיטות immutable על מערך</h1>
+
+</section>
+<section id="myarray.filterfn" class="slide level2">
+<h2><code dir="ltr">myArray.filter(fn)</code></h2>
+<ul>
+<li class="fragment"><img data-src="https://tse1.mm.bing.net/th?id=OIP.Bc9LaitgvOdyrLxOAzSCXQHaHa&amp;pid=Api" class="borderless" height="125" /></li>
+<li class="fragment"><div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  list<span class="op">.</span><span class="fu">filter</span>((item) <span class="kw">=&gt;</span> <span class="bu">Boolean</span>)</span></code></pre></div></li>
+<li class="fragment">דוגמא עבור סינון (והסרת) מספרים אי זוגיים</li>
+<li class="fragment"><div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> number <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  numbers<span class="op">.</span><span class="fu">filter</span>((n) <span class="kw">=&gt;</span> n <span class="op">%</span> <span class="dv">2</span> <span class="op">===</span> <span class="dv">0</span>) <span class="co">// [2, 4]</span></span></code></pre></div></li>
+</ul>
+<aside class="notes">
+Allows items that return true for the filter function to pass
+</aside>
+</section>
+<section id="myarray.mapfn" class="slide level2">
+<h2><code dir="ltr">myArray.map(fn)</code></h2>
+<ul>
+<li class="fragment"><img data-src="https://atendesigngroup.com/sites/default/files/array-map.png" class="borderless" height="200" /></li>
+<li class="fragment"><div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  list<span class="op">.</span><span class="fu">map</span>((item) <span class="kw">=&gt;</span> ___)</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+“Maps” items from one type to another Or better thought of as “transforms” items from some input to an output for each item
+</aside>
+</section>
+<section id="myarray.reducefn" class="slide level2">
+<h2><code dir="ltr">myArray.reduce(fn)</code></h2>
+<ul>
+<li class="fragment"><img data-src="https://atendesigngroup.com/sites/default/files/array-reduce.png" class="borderless" height="200" /></li>
+<li class="fragment"><div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  list<span class="op">.</span><span class="fu">reduce</span>((item<span class="op">,</span> acc) <span class="kw">=&gt;</span> ___<span class="op">,</span> initialAcc)</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+יצירת משתנה ע”י “צבירה”/העברה של ערכים במערך. בכל “סיבוב”, acc הופך להיות הערך הוחזר מהפונקציה
+</aside>
+</section>
+<section id="array.frominit-initfn" class="slide level2">
+<h2><code dir="ltr">Array.from(init, initFn)</code></h2>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> n }<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i)</span></code></pre></div></li>
+</ul>
+<aside class="notes">
+אפשר לייצר מערך בגודל מסויים ע”י קריאה ל-Array.from ואפשר לאתחל את הערכים ע”י פונקציה
+</aside>
+</section>
+<section id="פונקציות-נוספות-על-מערכים" class="slide level2">
+<h2>פונקציות נוספות על מערכים</h2>
+<table>
+<thead>
+<tr class="header">
+<th>פונקציה</th>
+<th>שימוש</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code dir="ltr">Array.some(fn)</code></td>
+<td>מבצע boolean OR על כל המערך</td>
+</tr>
+<tr class="even">
+<td><code dir="ltr">Array.every(fn)</code></td>
+<td>מבצע boolean AND על כל המערך</td>
+</tr>
+<tr class="odd">
+<td><code dir="ltr">Array.every(i1, i2)</code></td>
+<td>מחזיר מערך מורכב מאיברים בין i1 ו-i2</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section id="בחינת-ביצועים-שיפורם-ודיבוג-ב-js" class="title-slide slide level1">
+<h1>בחינת ביצועים, שיפורם ודיבוג ב-JS</h1>
+<ul>
+<li class="fragment"><img data-src="https://javascript.info/article/debugging-chrome/chrome-sources-debugger-trace-1.png" class="borderlesss" height="200" /></li>
+<li class="fragment">נעבור רגע על ה-debugger של Chrome</li>
+<li class="fragment">נעבור רגע על ה-profiler של Chrome</li>
+</ul>
+<aside class="notes">
+משמעות של debugger = כלי למציאת באגים שמאשר עצירה בשורות הרצה ובדיקת משתנים/ביטויים להריץ אפליקציה לדוגמא: cd ~/Programming/GlobusHakton-Frontend/globus-hackathon &amp;&amp; node –version &amp;&amp; npm start
+</aside>
+</section>
+
+<section>
+<section id="the-event-loop" class="title-slide slide level1" dir="ltr">
+<h1 dir="ltr">The Event Loop</h1>
+<div dir="rtl">
+<ul>
+<li class="fragment">ברירת מחדל asynchronous</li>
+<li class="fragment"><img data-src="https://javascript.info/article/event-loop/eventLoop.svg" height="250" /></li>
+<li class="fragment">כלומר, הרצה היא non-blocking לרוב הפועלות</li>
+</ul>
+</div>
+</section>
+<section id="web-workers" class="slide level2" dir="ltr">
+<h2 dir="ltr">Web Workers</h2>
+<div dir="rtl">
+<ul>
+<li class="fragment">דרך להריץ קוד “ברקע”</li>
+<li class="fragment">אפשר לתקשר עם the event loop דרך הודעות שמכילות תכון שהוא serializable</li>
+<li class="fragment">אי אפשר לגעת ב-DOM ב-Web Worker</li>
+<li class="fragment">יוצרים ע”י קריאה <br/> ל-<code>const worker = new Worker(filename)</code> עם קובץ JS</li>
+<li class="fragment">אפשר לשלוח הודעות דרך <code>postMessage</code> ולקבל הודעות דרך <code>onmessage</code></li>
+<li class="fragment">נראה דוגמא ביחד: <a href="https://github.com/mdn/fibonacci-worker">MDN Fibonacci worker</a></li>
+</ul>
+</div>
+</section>
+<section id="worker-threads" class="slide level2" dir="ltr">
+<h2 dir="ltr">Worker threads</h2>
+<div dir="rtl">
+<ul>
+<li class="fragment">מקביל ל-Web Workers ב-Node.JS</li>
+<li class="fragment">עדיף לא להשתמש בהם עבור פועלות I/O</li>
+<li class="fragment"><img data-src="https://miro.medium.com/max/1320/1*x7z8fnI3PKau1o_2u31U3g.jpeg" height="300" /></li>
+</ul>
+</div>
+</section>
+<section id="דוגמאות-של-worker-threads" class="slide level2">
+<h2>דוגמאות של Worker threads</h2>
+<ul>
+<li class="fragment">שינוי גודל של תמונה: <a href="https://gist.githubusercontent.com/sandeep-cs-dev/9dfcbb54df3d8b384d98011fabd885e4/raw/13e26ae43968f7574c2c3d94350f60e353413c95/ImageResizeWorker.js">Worker thread</a>, <a href="https://gist.githubusercontent.com/sandeep-cs-dev/5e914b9679b37e777624d98805a80352/raw/d4ebea79ddb663159dbc149fede2920bb2b2abfd/ImageResizeMainThread.js">Main thread</a></li>
+<li class="fragment">חישוב של מספרים ראשונים: <a href="https://gist.githubusercontent.com/sandeep-cs-dev/a2eb9848a422b3ae48cf40eeb0be1428/raw/36372719b27d21777783a58d86feca7268ee4ea5/calculate-primes-worker-threads.js">Worker</a>, <a href="https://gist.githubusercontent.com/sandeep-cs-dev/a2eb9848a422b3ae48cf40eeb0be1428/raw/36372719b27d21777783a58d86feca7268ee4ea5/test-worker.js">Main</a></li>
+<li class="fragment"><img data-src="https://miro.medium.com/max/1120/1*KLq2IEq9e3BlTSAJ4lkGuw.png" class="borderless" height="250" /></li>
+<li class="fragment">הצפנת קובץ: <a href="https://gist.githubusercontent.com/sandeep-cs-dev/f4db0b3708d9eec6ff98f2f4b320e848/raw/226366e4de99abfc3f086de18b109204c0461a0f/encrpt-file-worker.js">Worker</a>, <a href="https://gist.githubusercontent.com/sandeep-cs-dev/f4db0b3708d9eec6ff98f2f4b320e848/raw/226366e4de99abfc3f086de18b109204c0461a0f/encrpt-file-worker-test.js">Main</a> (הודות ל<a href="https://medium.com/nodejsmadeeasy/workers-threads-in-node-js-part2-ec45ac084963">Sandeep Patel</a>)</li>
+</ul>
+</section></section>
+<section>
+<section id="תכולות-מתקדמות" class="title-slide slide level1">
+<h1>תכולות מתקדמות</h1>
+
+</section>
+<section id="symbols" class="slide level2">
+<h2>Symbols</h2>
+<ul>
+<li class="fragment">מאפשר מחרוזת שהן חד ערכי</li>
+<li class="fragment">מקבלים עם <code class="sourceCode javascript" dir="ltr"><span class="bu">Symbol</span>(<span class="st">&quot;somestring&quot;</span>)</code></li>
+<li class="fragment">מפתחות שהן Symbols לא מופיעים ב-<code class="sourceCode javascript" dir="ltr"><span class="cf">for</span> _ <span class="kw">in</span> _</code> או <code class="sourceCode javascript"><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span></code></li>
+<li class="fragment">אפשר לקבל את המחרוזת דרך <code class="sourceCode javascript" dir="ltr"><span class="bu">Symbol</span><span class="op">.</span><span class="fu">keyFor</span>(sym)</code></li>
+</ul>
+</section>
+<section id="template-literals" class="slide level2">
+<h2>Template literals</h2>
+<ul>
+<li class="fragment">יש שני סוגים: tagged ו-untagged</li>
+<li class="fragment">סוג ה-untagged מאפשר הכנסת משתנים במחרוזות והכנסת שבירות שורה במחרוזת</li>
+<li class="fragment">סוג ה-tagged קוראים לפונקציה עם מחרוזת הטקסט ומשתנים בתור קלטים נוספים</li>
+<li class="fragment">לכן tagged template literals מאפשרות Domain Specific Languages (DSLs)</li>
+</ul>
+</section>
+<section id="untagged-template-literals" class="slide level2">
+<h2>Untagged template literals</h2>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`Recipe for magic sauce:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>x<span class="sc">}</span><span class="vs">g of </span><span class="sc">${</span>name<span class="sc">}</span><span class="vs"> chilli`</span></span></code></pre></div></li>
+</ul>
+</section>
+<section id="tagged-template-literals" class="slide level2">
+<h2>Tagged template literals</h2>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> benlang <span class="op">=</span> (strings<span class="op">,</span> count) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (strings[<span class="dv">1</span>]<span class="op">.</span><span class="fu">endsWith</span>(<span class="st">&quot; times&quot;</span>)) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> count })<span class="op">.</span><span class="fu">forEach</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(strings[<span class="dv">0</span>]<span class="op">.</span><span class="fu">split</span>(<span class="st">&quot;Write &quot;</span>)[<span class="dv">1</span>])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> n <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">benlang</span><span class="vs">`Write chocolate is tasty </span><span class="sc">${</span>n<span class="sc">}</span><span class="vs"> times`</span></span></code></pre></div></li>
+</ul>
+</section>
+<section id="דוגמא-של-tagged-template-literal-עם-jest" class="slide level2">
+<h2>דוגמא של Tagged template literal עם Jest</h2>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    test<span class="op">.</span><span class="fu">each</span><span class="vs">`</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="vs">      a    | b    | expected</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span><span class="dv">1</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">1</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">2</span><span class="sc">}</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span><span class="dv">1</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">2</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">3</span><span class="sc">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span><span class="dv">2</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">1</span><span class="sc">}</span><span class="vs"> | </span><span class="sc">${</span><span class="dv">3</span><span class="sc">}</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span>(<span class="st">&#39;returns $expected for $a + $b&#39;</span><span class="op">,</span> ({a<span class="op">,</span> b<span class="op">,</span> expected}) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expect</span>(a <span class="op">+</span> b)<span class="op">.</span><span class="fu">toBe</span>(expected)<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div></li>
+</ul>
+</section>
+<section id="map" class="slide level2">
+<h2>Map</h2>
+<ul>
+<li class="fragment">מאפשרת key, value כאשר keys הן לא רק מחרוזות או Symbols</li>
+<li class="fragment">ב-Map סדר המפתחות מובטח</li>
+<li class="fragment">יוצרים ע”י קריאה ל-<code class="sourceCode javascript" dir="ltr"><span class="kw">new</span> <span class="bu">Map</span>(args)</code></li>
+<li class="fragment">קוראים ממנו עם <code class="sourceCode javascript" dir="ltr">map<span class="op">.</span><span class="fu">get</span>(key)</code></li>
+<li class="fragment">אפשר גם להגדיר keys דינמית ע”י <code class="sourceCode javascript" dir="ltr">map<span class="op">.</span><span class="fu">set</span>(key<span class="op">,</span> value)</code> ולמחוק עם <code class="sourceCode javascript" dir="ltr">map<span class="op">.</span><span class="fu">delete</span>(key)</code></li>
+<li class="fragment">דורשת פועלות נוספות כדי לאפשר serialization</li>
+</ul>
+<aside class="notes">
+<ul>
+<li class="fragment">Similar to HashMap in Java or Dictionary in C# or Python</li>
+<li class="fragment"><code class="sourceCode javascript">args</code> can be key-value pairs</li>
+</ul>
+</aside>
+</section>
+<section id="proxies" class="slide level2">
+<h2>Proxies</h2>
+<ul>
+<li class="fragment">יוצר אובייקט עוטף target</li>
+<li class="fragment">מתנהג כמו target חוץ ממלכודות (traps)</li>
+<li class="fragment"><code class="sourceCode javascript"><span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>(target<span class="op">,</span> handler)</code></li>
+<li class="fragment">אפשר לשנות התנגנות של מלא פועלות, לא רק <code class="sourceCode javascript">get</code> ו-<code class="sourceCode javascript">set</code>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy#handler_functions">הנה</a> רשימה שלמה של traps אפשריים</li>
+<li class="fragment">אפשר להשתמש בזה כדי לבצע ולידציה, להוסיף ברירת מחדל לערכים או כדי ליצור caching</li>
+</ul>
+<aside class="notes">
+Handler is an object which contains traps
+</aside>
+</section>
+<section id="typed-arrays" class="slide level2">
+<h2>Typed arrays</h2>
+<ul>
+<li class="fragment">אובייקט דומה למערך מיועד לעריכת דאטה בבינארי</li>
+<li class="fragment">גודל בבתים קבוע</li>
+<li class="fragment">יש הפרדה בין <code class="sourceCode javascript"><span class="bu">ArrayBuffer</span></code> שמחזיק בתים של דאטה ו-views מטיפוסים שונים
+<ul>
+<li class="fragment">דוגמאות: <code class="sourceCode javascript"><span class="bu">Int8Array</span></code>, <code class="sourceCode javascript"><span class="bu">Uint8Array</span></code>, <code class="sourceCode javascript"><span class="bu">Int16Array</span></code>, <code class="sourceCode javascript"><span class="bu">Uint16Array</span></code>, <code class="sourceCode javascript"><span class="bu">Int32Array</span></code>, <code class="sourceCode javascript"><span class="bu">Uint32Array</span></code>, <code class="sourceCode javascript"><span class="bu">Float32Array</span></code>, <code class="sourceCode javascript"><span class="bu">Float64Array</span></code>, <code class="sourceCode javascript"><span class="bu">BigInt64Array</span></code>, <code class="sourceCode javascript"><span class="bu">BigUint64Array</span></code></li>
+</ul></li>
+<li class="fragment">יש <code>DataView</code> כדי לשנות בתים ב-Buffer כאשר סוג המספרים שונים וכאשר נדרש ייחוס ל-Endianness</li>
+</ul>
+</section></section>
+<section>
+<section id="איטרציה" class="title-slide slide level1">
+<h1>איטרציה</h1>
+<ul>
+<li class="fragment">לא תמיד לטעון את הכל לזיכרון</li>
+</ul>
+</section>
+<section id="פונקציאת-iterator" class="slide level2">
+<h2>פונקציאת Iterator</h2>
+<ul>
+<li class="fragment">מגדיר אובייקט שמכיל סדר של ערכים ואז פוטנציאלית ערך הוחזר</li>
+<li class="fragment">כלומר שיש לו <code class="sourceCode javascript" dir="ltr"><span class="fu">next</span>()</code> שמחזיר <code class="sourceCode javascript">value</code> ו-<code class="sourceCode javascript">done</code></li>
+</ul>
+<aside class="notes">
+<code>done</code> הוא בעצם boolean של האם כל הערכים כבר הוגשו שימו לב כי אפשר לקרוא ל-<code class="sourceCode javascript">next</code> אינסוף פעמים, פשוט אותו ערך הוחזר ו-<code class="sourceCode javascript">done<span class="op">===</span><span class="kw">true</span></code>
+</aside>
+</section>
+<section id="פונקציאת-generator" class="slide level2">
+<h2>פונקציאת Generator</h2>
+<ul>
+<li class="fragment">פונקציה נורצה ע”י <code class="sourceCode javascript" dir="ltr"><span class="kw">function</span><span class="op">*</span></code></li>
+<li class="fragment">מקרה של פונקציה שיוצרת iterator אבל קלה יותר להבין</li>
+<li class="fragment">קריאה ראשוני מחזירה iterator</li>
+<li class="fragment">הפונקציה הורצה עד למילת מפתח <code class="sourceCode javascript"><span class="kw">yield</span></code> עבור כל קריאה ל-<code class="sourceCode javascript">next</code></li>
+<li class="fragment">מילה המפתח <code class="sourceCode javascript"><span class="kw">yield</span></code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#advanced_generators">יכול להחזיר ערך</a> במקרה ו-<code>next</code> נקרא עם ערך</li>
+<li class="fragment">אפשר להשתמש ב-<code class="sourceCode javascript" dir="ltr"><span class="kw">yield</span><span class="op">*</span></code> כדי להעביר ל-generator אחר, כלומר, composition</li>
+</ul>
+</section>
+<section id="iterables" class="slide level2">
+<h2>Iterables</h2>
+<ul>
+<li class="fragment">אובייקט שאפשר “לעבור” עליו</li>
+<li class="fragment"><code>Array</code> ו-<code>Map</code> הם iterables</li>
+<li class="fragment">כדי שאובייקט יהיה iterable הוא צריך לממש את השיטה <code class="sourceCode javascript">@@iterator</code>/<code class="sourceCode javascript"><span class="bu">Symbol</span><span class="op">.</span><span class="at">iterator</span></code></li>
+<li class="fragment">פונקציות generator מגדירים את <code>Symbol.iterator</code> של ה-iterator שלהם לעצמם כך אשפר לעבור עליהם פעם אחת בלבד</li>
+<li class="fragment">לעומת זאת אפשר לעבור על אובייקטים שיוצר generator עבור <code>Symbol.iterator</code> אינסוף פעמים</li>
+</ul>
+</section>
+<section id="דוגמא-של-generators" class="slide level2">
+<h2>דוגמא של generators</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Create a fibonacci generator function</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span><span class="op">*</span> <span class="fu">fibonacci</span>() {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> [prev<span class="op">,</span> next] <span class="op">=</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> prev</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> next</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Add previous and next values and yield them forever</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (<span class="kw">true</span>) {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> newVal <span class="op">=</span> next <span class="op">+</span> prev</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">yield</span> newVal</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      prev <span class="op">=</span> next</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      next <span class="op">=</span> newVal</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>קוד מ-<a href="https://www.digitalocean.com/community/tutorials/understanding-generators-in-javascript">כתבה</a></p>
+</section></section>
+<section id="שגיאות-אופרטיביות-לעומת-תיכנותיות" class="title-slide slide level1">
+<h1>שגיאות אופרטיביות לעומת תיכנותיות</h1>
+<ul>
+<li class="fragment">בתיכנות יש שתי סוגי שגיאות:
+<ul>
+<li class="fragment">אופרטיביות: משהו בתהליך נכשל</li>
+<li class="fragment">תיכנותיות: המתכנת פספס מקרה</li>
+</ul></li>
+<li class="fragment">עדיף לא להשתמש ב-Error או Exception עבור שגיאות אופרטיביות</li>
+<li class="fragment">עדיף לטפל בשגיאות אופרטיביות</li>
+</ul>
+<aside class="notes">
+<ul>
+<li class="fragment">If you know the error in advance, it is an operational one
+<ul>
+<li class="fragment">Operational errors expected by user interaction should not throw Errors, but rather the data structure should consider then</li>
+<li class="fragment">Operational errors should never crash the application, depending on the error, either the application should log the error and continue or automatically retry or return a response to the user or a combination of these</li>
+<li class="fragment">Programming errors will inevitable lead to application crash in some circumstances, and it is usually better to perform a restart in all cases</li>
+</ul></li>
+</ul>
+</aside>
+</section>
+
+<section>
+<section id="progressive-web-apps---pwas" class="title-slide slide level1">
+<h1>Progressive Web Apps - PWAs</h1>
+<ul>
+<li class="fragment">שם קוד לאפליקציות הממשות תכולות מתקדמות של דפדפנים</li>
+<li class="fragment">עיקר הוא 2 תכולות מיוחדות שיוצר אפליקציות מאתרי web</li>
+</ul>
+</section>
+<section id="service-worker" class="slide level2">
+<h2>Service Worker</h2>
+<ul>
+<li class="fragment">רכיב היושב בין דפדפן לשרת הרחוק המאפשרת פעילות הדף ללא חיבור רשתי</li>
+<li class="fragment">כתוב ב-JS וסוג של Web Worker</li>
+<li class="fragment">נשמר ע”י קריאה ל-<code class="sourceCode javascript" dir="ltr"><span class="bu">ServiceWorker</span><span class="op">.</span><span class="fu">register</span>()</code></li>
+<li class="fragment">בקריאות הבאות לאתר, הדפדפן מבקש מה-Service Worker את הדף</li>
+<li class="fragment">שימוש בה דורשת HTTPS</li>
+</ul>
+<aside class="notes">
+<ul>
+<li class="fragment">See https://developers.google.com/web/fundamentals/codelabs/offline/ for a guided tutorial example</li>
+</ul>
+</aside>
+</section>
+<section id="web-app-manifest" class="slide level2">
+<h2>Web app manifest</h2>
+<ul>
+<li class="fragment">קובץ JSON</li>
+<li class="fragment">מגדיר את האתר שלך בתור אפליקציה ולכן מאפשר שמריתה לתפריט אפליקציות במכשיר</li>
+<li class="fragment">נותן לאפליקציה שם, שם מפתח, גרסה, לוגו ותיאור</li>
+<li class="fragment">מאפשר הגדרת ברירת מחדל של אורינטציה של אפליקציה ודף הביתה שלה</li>
+<li class="fragment">לא נתמך ב-Firefox ו-Safari במחשבים אלא רק בטלפונים</li>
+</ul>
+</section></section>
+<section>
+<section id="indexeddb" class="title-slide slide level1">
+<h1>IndexedDB</h1>
+<ul>
+<li class="fragment">ממשק low-level עבור שמירת כמויות של structured data</li>
+<li class="fragment">בסיס נתונים לדפדפן</li>
+<li class="fragment">מבוסס על JSON</li>
+<li class="fragment">יש לו גרסאות ל-DB</li>
+<li class="fragment">יש לו transactions</li>
+</ul>
+</section>
+<section id="ממשק-ל-indexeddb-עם-dexie.js" class="slide level2">
+<h2>ממשק ל-IndexedDB עם Dexie.js</h2>
+<ul>
+<li class="fragment"><div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> db <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dexie</span>(<span class="st">&quot;FriendDatabase&quot;</span>)<span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="fu">version</span>(<span class="dv">1</span>)<span class="op">.</span><span class="fu">stores</span>({ <span class="dt">friends</span><span class="op">:</span> <span class="st">&quot;++id,name,age&quot;</span> })<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  db<span class="op">.</span><span class="fu">transaction</span>(<span class="st">&#39;rw&#39;</span><span class="op">,</span> db<span class="op">.</span><span class="at">friends</span><span class="op">,</span> <span class="kw">async</span>() <span class="kw">=&gt;</span> {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> ((<span class="cf">await</span> db<span class="op">.</span><span class="at">friends</span><span class="op">.</span><span class="fu">where</span>({<span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Josephine&#39;</span>})<span class="op">.</span><span class="fu">count</span>()) <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>          <span class="kw">const</span> id <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="at">friends</span><span class="op">.</span><span class="fu">add</span>({<span class="dt">name</span><span class="op">:</span> <span class="st">&quot;Josephine&quot;</span><span class="op">,</span> <span class="dt">age</span><span class="op">:</span> <span class="dv">21</span>})<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>          <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Addded friend with id </span><span class="sc">${</span>id<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> youngFriends <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="at">friends</span><span class="op">.</span><span class="fu">where</span>(<span class="st">&quot;age&quot;</span>)<span class="op">.</span><span class="fu">below</span>(<span class="dv">25</span>)<span class="op">.</span><span class="fu">toArray</span>()<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;My young friends: &quot;</span> <span class="op">+</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(youngFriends))<span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">.</span><span class="fu">catch</span>(e <span class="kw">=&gt;</span> {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(e<span class="op">.</span><span class="at">stack</span> <span class="op">||</span> e)<span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code></pre></div></li>
+</ul>
+</section></section>
+<section id="נושאים-אחרים-מעניינים" class="title-slide slide level1">
+<h1>נושאים אחרים מעניינים</h1>
+<ul>
+<li class="fragment"><a href="https://javascript.info/websocket">Web Sockets</a></li>
+<li class="fragment"><a href="https://javascript.info/fetch-progress">Fetch download progress</a>, <a href="https://javascript.info/fetch-abort">abortable fetch</a> &amp; <a href="https://javascript.info/resume-upload">resumable upload progress</a></li>
+<li class="fragment">Web Components: Custom elements &amp; Shadow DOM</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

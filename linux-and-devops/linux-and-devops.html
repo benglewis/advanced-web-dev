@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>יום שני:   Linux &amp; DevOps</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="../fix-rtl.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">יום שני: <br/> Linux &amp; DevOps</h1>
+</section>
+
+<section>
+<section id="מערכות-הפעלה" class="title-slide slide level1">
+<h1>מערכות הפעלה</h1>
+
+</section>
+<section id="ליבה-kernel" class="slide level2">
+<h2>ליבה (kernel)</h2>
+<div>
+<ul>
+<li class="fragment">סביבה בה רץ הקוד שלך</li>
+<li class="fragment">מאפשרת גישה ל-I/O עם file system מסויים וחיבור מכשירים דרך drivers</li>
+<li class="fragment">מאפשרת תזמון processes ותקשורת ביניהם</li>
+</ul>
+</div>
+</section>
+<section id="ליבה-linux" class="slide level2">
+<h2>ליבה Linux</h2>
+<div>
+<ul>
+<li class="fragment">ליבה עם קוד פתוח מבוסס Berkeley Software Distribution (BSD)</li>
+<li class="fragment">כתוב ע״י Linus Torvalds ופורסם עם השם Linux ניתן בניגוד לרצונך אחריו</li>
+<li class="fragment">ליבה מאוד פופולארית היום ובשימוש ברוב השרתים בעולם וגם ברוב הטלפונים דרך Android</li>
+<li class="fragment">שונה מWindows ודורשת קומפילציה נפרדת</li>
+</ul>
+</div>
+</section>
+<section id="distributions-distros" class="slide level2" dir="ltr">
+<h2 dir="ltr">Distributions (distros)</h2>
+<div dir="rtl">
+<div>
+<ul>
+<li class="fragment">מערכות הפעלה מורכבות משכבת ליבה של Linux ו-package manager שמנהלת ודרכה הותקנו אפליקציות נוספות ונקראות Linux distributions</li>
+<li class="fragment">יש כמה distributions שהם פופולאריים במיוחד:
+<ul>
+<li class="fragment">אלה שמבוססים על deb עם הכלי apt למשל Debian, Ubuntu</li>
+<li class="fragment">אלה שמבוססים על rpm עם הכלי yum למשל RedHat Enterprise Linux (RHEL), Fedora, CentOS, OpenSUSE</li>
+<li class="fragment">אלה שמבוססים על pacman למשל Arch Linux</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="ניהול-קבצים-ב-windows-ו-linux" class="slide level2">
+<h2>ניהול קבצים ב-Windows ו-Linux</h2>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 38%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>קטגוריה</th>
+<th>התנגות של Windows</th>
+<th>התנגות של Linux</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>מיפוי כוננים</td>
+<td>ממופים אל אות</td>
+<td>ממופים אל תיקייה מסויימת. כונן הבסיס /</td>
+</tr>
+<tr class="even">
+<td>הרשאות</td>
+<td>שייכות עבור כל קובץ תיקייה עם רשימת חוקים</td>
+<td>שייכות בעלות על הקובץ למשתמש ולקבוצה מסויים</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section>
+<section id="שורת-פקודה-command-line" class="title-slide slide level1">
+<h1>שורת פקודה (command line)</h1>
+
+</section>
+<section id="פקודות-בסיסיות" class="slide level2">
+<h2>פקודות בסיסיות</h2>
+<div>
+<ul>
+<li class="fragment"><code>pwd</code>: הדפסת תיקיית העבודה (working directory)</li>
+<li class="fragment"><code>cd</code>: לשנות את תיקיית העבודה</li>
+<li class="fragment"><code>ls</code>: הדפסת רשימת קבצים בתיקייה</li>
+<li class="fragment"><code>cat</code>: הדפסת תוכן בקובץ</li>
+<li class="fragment"><code>cp</code>: להעתיק קובץ</li>
+<li class="fragment"><code>mv</code>: להזיז קובץ</li>
+<li class="fragment"><code>mkdir</code>: ליצור תיקייה</li>
+<li class="fragment"><code>rm</code>: למחוק קובץ</li>
+<li class="fragment"><code>rm -r</code>: למחוק תיקייה</li>
+<li class="fragment"><code>touch</code>: ליצור קובץ ריק</li>
+</ul>
+</div>
+</section>
+<section id="פקודות-בסיסיות-2" class="slide level2">
+<h2>פקודות בסיסיות (2)</h2>
+<div>
+<ul>
+<li class="fragment"><code>grep</code>: חיפוש בצורת RegEx בקובץ</li>
+<li class="fragment"><code>df</code>: הדפסת שימוש בכונן</li>
+<li class="fragment"><code>du</code>: הדפסת שימוש בתיקייה</li>
+<li class="fragment"><code>head</code>: הדפסת תחילת קובץ (ברירת מחדל: 10 שורות ראשונות)</li>
+<li class="fragment"><code>tail</code>: הדפסת סוף קובץ (ברירת מחדל: 10 שורות אחרונות)</li>
+<li class="fragment"><code>diff</code>: הדפסת הבדלים בין 2 קבצים</li>
+<li class="fragment"><code>diff3</code>: הדפסת הבדלים בין 3 קבצים</li>
+<li class="fragment"><code>tar</code>: פתיחתקובץ דחוס בסוג <code>tar</code></li>
+<li class="fragment"><code>unzip</code>: מחלצת קובץ zip</li>
+</ul>
+</div>
+</section>
+<section id="פקודות-בסיסיות-3" class="slide level2">
+<h2>פקודות בסיסיות (3)</h2>
+<div>
+<ul>
+<li class="fragment"><code>chmod</code>: שנה הרשאות על קובץ/תיקייה</li>
+<li class="fragment"><code>chown</code>: שנה בעל קובץ/תיקייה</li>
+<li class="fragment"><code>kill</code>: להרוג process שרץ</li>
+<li class="fragment"><code>wget</code>: להוריד קובץ מאניטרנט. אפשר גם להוריד שרשרת קישורים</li>
+<li class="fragment"><code>top</code>: תראה אפליקציות שרצים וכמה משאבים הן גוזלות</li>
+<li class="fragment"><code>man</code>: תראה איך להשתמש בכל הפקודות</li>
+<li class="fragment"><code>echo</code>: הדפסת משתנים</li>
+<li class="fragment"><code>locate</code>: מוצא מיקום של קובץ ע”י שמו</li>
+<li class="fragment"><code>file</code>: מחזיר טיפוס קובץ</li>
+</ul>
+</div>
+</section>
+<section id="קיצורים" class="slide level2">
+<h2>קיצורים</h2>
+<div>
+<ul>
+<li class="fragment">Tab: השלמה אוטומטית של שמות קבצים/תיקיות (אפשר להוסיף יכולות לzsh)</li>
+<li class="fragment">Ctrl+R: חיפוש בפקודות שהרצת</li>
+<li class="fragment">Up &amp; Down arrows: פקודות קודמות לפי הסדר שהרצת אותן</li>
+<li class="fragment">Ctrl+C: עצור הרצת פקודה/process</li>
+</ul>
+</div>
+</section>
+<section id="תרגיל-שורת-פקודה-של-linux" class="slide level2">
+<h2>תרגיל: שורת פקודה של Linux</h2>
+<p>הכנסו אל: <a href="https://www.katacoda.com/cybershaolin/courses/intro-to-linux/linux-commands-training_kwoon">https://www.katacoda.com/cybershaolin/courses/intro-to-linux/linux-commands-training_kwoon</a></p>
+</section></section>
+<section id="מה-זה-devops" class="title-slide slide level1">
+<h1>מה זה DevOps?</h1>
+<div>
+<ul>
+<li class="fragment">פילוסופיית פיתוח</li>
+<li class="fragment">חיבור בין מפתחים לאנשי תשתיות כך שתשתית מנוהל ע”י קוד</li>
+<li class="fragment">קיצור של תהליכי בדיקות ושחרור גרסאות</li>
+<li class="fragment">שליטה בתהליכי פיתוח</li>
+<li class="fragment">אני ממליץ על זה בשם The Phoenix Project</li>
+</ul>
+</div>
+</section>
+
+<section>
+<section id="docker" class="title-slide slide level1">
+<h1>Docker</h1>
+
+</section>
+<section id="מה-זה-docker" class="slide level2">
+<h2>מה זה Docker?</h2>
+<div>
+<ul>
+<li class="fragment">הפרדת אפליקציות ברמת הליבה (ליבה משותף)</li>
+<li class="fragment">הפרדת משאבים (מעבד, זיכרון, נפח כונן, רשת)</li>
+<li class="fragment">שימוש בספריות שונות בגרסה מנוהלת</li>
+<li class="fragment">יוצרים image שממנו אפשר להעלות אפליקציה במצב צפוי (container)</li>
+<li class="fragment"><img data-src="https://blog.jayway.com/wp-content/uploads/2015/03/vm-vs-docker.png" /></li>
+</ul>
+</div>
+</section>
+<section id="docker-נגד-vm" class="slide level2">
+<h2>Docker נגד VM</h2>
+<p><img data-src="http://blog.jayway.com/wp-content/uploads/2015/03/vm-vs-docker-table.png" height="400" /></p>
+</section>
+<section id="איך-משתמשים-ב-docker" class="slide level2">
+<h2>איך משתמשים ב-Docker?</h2>
+<div>
+<ul>
+<li class="fragment">יוצרים קובץ Dockerfile</li>
+<li class="fragment">בונים את ה-image</li>
+<li class="fragment">מריצים container אותו עם קונפיגורציה מסויימת</li>
+</ul>
+</div>
+</section>
+<section id="statelessness" class="slide level2">
+<h2>Statelessness</h2>
+<div>
+<ul>
+<li class="fragment">מרחב מערכת קבצים מאופס בהרצת אפליקציה</li>
+<li class="fragment">אפשר לחבר volumes לדאג לשמירת נתונים לצמיתות</li>
+</ul>
+</div>
+</section>
+<section id="הדגמה-docker" class="slide level2">
+<h2>הדגמה: Docker</h2>
+<p>אראה לכם פקודות בסיסיות של ה-CLI והתנגדות ה-containers</p>
+</section>
+<section id="תרגיל-volumes-ב-docker" class="slide level2">
+<h2>תרגיל: Volumes ב-Docker</h2>
+<p>הכנסו אל: <a href="https://www.katacoda.com/loodse/courses/docker/docker-16-volumes">https://www.katacoda.com/loodse/courses/docker/docker-16-volumes</a></p>
+</section>
+<section id="dockerfile" class="slide level2">
+<h2>Dockerfile</h2>
+<div>
+<ul>
+<li class="fragment">קובץ המאפשר יצירת image</li>
+<li class="fragment">נהוג לקרוא לזה Dockerfile או קובץ עם סיומת Dockerfile</li>
+<li class="fragment">רשום בו פקודות לבנות image</li>
+</ul>
+</div>
+</section>
+<section id="פקודות-ב-dockerfile" class="slide level2">
+<h2>פקודות ב-Dockerfile</h2>
+<table>
+<thead>
+<tr class="header">
+<th>פקודה</th>
+<th>שימוש</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FROM</td>
+<td>התחלת קובץ והבאת image אחר בתור בסיס</td>
+</tr>
+<tr class="even">
+<td>RUN</td>
+<td>הרצאת פקודה בשורת פקודה</td>
+</tr>
+<tr class="odd">
+<td>COPY</td>
+<td>מעתיק מ-build context אל image</td>
+</tr>
+<tr class="even">
+<td>EXPOSE</td>
+<td>חושף פורט החוצה מה-image</td>
+</tr>
+<tr class="odd">
+<td>CMD</td>
+<td>מגדיר את הפקודה שהורץ בהרצאת ה-image</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="תרגיל-בניית-docker-image" class="slide level2">
+<h2>תרגיל: בניית Docker image</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/courses/docker/2">https://www.katacoda.com/courses/docker/2</a></p>
+</section></section>
+<section>
+<section id="kubernetes" class="title-slide slide level1">
+<h1>Kubernetes</h1>
+<p>כלי להרצת containers של Docker בצורה יציבה, יעילה, חכמה ומסודרת (orchestrator)</p>
+</section>
+<section id="יכולות-kubernetes" class="slide level2">
+<h2>יכולות Kubernetes</h2>
+<p>::: incremental ::: - מציאת שירותים ופיזור עומס - ניהול מערכת קבצים - שחרור גרסאות וחזרות לאחור אוטומטיות - פיזור instances בין שרתים אוטומטית - העלאה אוטומטית בנפילת instance - ניהול קונפיגורציה ו”סודות”</p>
+</section>
+<section id="מונחים-של-kubernetes" class="slide level2">
+<h2>מונחים של Kubernetes</h2>
+<table>
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>מונח</th>
+<th>משמעות</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cluster</td>
+<td>אוסף של שרתים שמריץ Kubernetes</td>
+</tr>
+<tr class="even">
+<td>Worker nodes</td>
+<td>שרתים המריצים את האפליקציות</td>
+</tr>
+<tr class="odd">
+<td>Pod</td>
+<td>המונח הבסיסי ב-Kubernetes עבור instance של אפליקציות, בד”כ container יחיד</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="מונחים-של-kubernetes-1" class="slide level2">
+<h2>מונחים של Kubernetes</h2>
+<table>
+<thead>
+<tr class="header">
+<th>מונח</th>
+<th>משמעות</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cloud controller</td>
+<td>שרתים המנהלים את ה-cluster</td>
+</tr>
+<tr class="even">
+<td>Deployment</td>
+<td>אפליקציה/שירות המוגדר ע”י YAML קונפיגורציה</td>
+</tr>
+<tr class="odd">
+<td>Replica set</td>
+<td>אסוף של רפליקציות של pod של deployment</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="תרגיל-kubernetes" class="slide level2">
+<h2>תרגיל: Kubernetes</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/javajon/courses/kubernetes-fundamentals/first-app">https://www.katacoda.com/javajon/courses/kubernetes-fundamentals/first-app</a></p>
+</section>
+<section id="יכולות-מתקדמות-של-kubernetes" class="slide level2">
+<h2>יכולות מתקדמות של Kubernetes</h2>
+<ul>
+<li>ב-Kubernetes אפשר להגדיר בדיקת חיים ובדיקות זמינות של מהערכת שלך</li>
+<li>ב-Kubernetes אפשר להכניס בזמן ריצה תיקיות קונפיגורציה ו-secrets או להכניס אותם למשתני סביבה</li>
+</ul>
+</section>
+<section id="תרגיל-kubernetes-readiness-ו-liveness-checks" class="slide level2">
+<h2>תרגיל: Kubernetes readiness ו-liveness checks</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/courses/kubernetes/liveness-readiness-healthchecks">https://www.katacoda.com/courses/kubernetes/liveness-readiness-healthchecks</a></p>
+</section>
+<section id="תרגיל-kubernetes-secrets" class="slide level2">
+<h2>תרגיל: Kubernetes secrets</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/courses/kubernetes/managing-secrets">https://www.katacoda.com/courses/kubernetes/managing-secrets</a></p>
+</section></section>
+<section>
+<section id="openshift" class="title-slide slide level1">
+<h1>OpenShift</h1>
+<div>
+<ul>
+<li class="fragment">ממשק ל-Kubernetes של RedHat</li>
+<li class="fragment">יש לו CLI משלו עם הרחבות של Kubernetes</li>
+<li class="fragment">יש לו GUI משלו</li>
+</ul>
+</div>
+</section>
+<section id="תרגיל-התחברות-ל-openshift" class="slide level2">
+<h2>תרגיל: התחברות ל-OpenShift</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/openshift/courses/using-the-cluster/cluster-access">https://www.katacoda.com/openshift/courses/using-the-cluster/cluster-access</a></p>
+</section>
+<section id="אחסון-לצמיתות-ב-openshift" class="slide level2">
+<h2>אחסון לצמיתות ב-OpenShift</h2>
+<div>
+<ul>
+<li class="fragment">אפשר ליצור ב-OpenShift תא אחסון לצמיתות</li>
+<li class="fragment">Persistent Volume</li>
+<li class="fragment">הוא נוצר על ידי Persistent Volume Claim</li>
+<li class="fragment">יש אחסון מסוג ReadWriteOnce (RWO) מתאים רק לחיבור לאפליקציה אחת ו-ReadWriteMany (RWX) שמתאים לחיבור לכמה אפליקציות בו”ז</li>
+</ul>
+</div>
+</section>
+<section id="תרגיל-pvc-ב-openshift" class="slide level2">
+<h2>תרגיל: PVC ב-OpenShift</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/openshift/courses/persistence/persistent-intro">https://www.katacoda.com/openshift/courses/persistence/persistent-intro</a></p>
+</section>
+<section id="הורדתהעלאת-קבצים-ב-openshift" class="slide level2">
+<h2>הורדת/העלאת קבצים ב-OpenShift</h2>
+<ul>
+<li>אפשר להוריד את הקבצים שנמצאים ב-podים דרך ה-API של OpenShift</li>
+<li>רושמים oc cp ואז שם ה-pod</li>
+</ul>
+</section>
+<section id="תרגיל-הרודתהעלאת-קבצים-ב-openshift" class="slide level2">
+<h2>תרגיל: הרודת/העלאת קבצים ב-OpenShift</h2>
+<p>הכנסו אל <a href="https://www.katacoda.com/openshift/courses/using-the-cluster/transferring-files">https://www.katacoda.com/openshift/courses/using-the-cluster/transferring-files</a></p>
+</section></section>
+<section id="תרגילי-המשיך" class="title-slide slide level1">
+<h1>תרגילי המשיך:</h1>
+<ul>
+<li><a href="https://www.katacoda.com/courses/docker-security/image-scanning-with-clair">https://www.katacoda.com/courses/docker-security/image-scanning-with-clair</a></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,111 @@
+.reveal section ol,
+.reveal section ul {
+  text-align: right;
+}
+
+.reveal .sourceCode {
+  margin: 2vh 0;
+}
+
+.reveal pre code {
+  direction: ltr;
+  background: rgb(59, 59, 59);
+  padding: 20px;
+  width: 70vw;
+}
+
+.reveal code span.fu {
+  color: rgb(125, 203, 230);
+}
+
+.reveal code span.cf {
+  color: lightgreen;
+}
+
+.reveal code span.kw {
+  color: rgb(144, 238, 191);
+}
+
+.reveal code span.at {
+  color: rgb(176, 133, 255);
+}
+
+.reveal code span.op {
+  color: rgb(179, 244, 255);
+}
+
+.reveal code span.bu {
+  color: rgb(255, 220, 179);
+}
+
+.reveal code span.im {
+  color: rgb(157, 166, 255);
+}
+
+.reveal code span.ot {
+  color: rgb(255, 157, 217);
+}
+
+.reveal code span.va {
+  color: rgb(255, 157, 157);
+}
+
+.reveal pre code span:last-child {
+  margin-bottom: 20px;
+}
+
+.reveal img:not(.borderless) {
+  background: #fff;
+  padding: 20px;
+}
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+  margin-right: 40px;
+}
+
+.reveal div[dir="ltr"] ul {
+  list-style-type: none;
+}
+
+.reveal div[dir="ltr"] ul li:after {
+  content: "■";
+  color: #fff;
+  font-size: 62px;
+  line-height: 0;
+  position: relative;
+  top: 0px;
+  left: 35px;
+}
+
+.reveal table th,
+.reveal table td {
+  text-align: inherit;
+}
+
+.reveal .slide-number {
+  direction: ltr;
+}
+
+.reveal h1,
+.reveal h2 {
+  --r-heading-text-transform: initial;
+}
+
+.reveal .v8-slide {
+  background: #fff;
+}
+
+.reveal h1.v8-slide {
+  display: none;
+}
+
+.reveal .v8 {
+  color: rgb(66, 133, 244);
+}
+
+.reveal .pure-slide {
+  background: rgb(0, 0, 0);
+}

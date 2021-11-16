@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>יום רביעי: תרגיל JS ו-Cesium</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="../fix-rtl.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">יום רביעי: תרגיל JS ו-Cesium</h1>
+</section>
+
+<section id="תרגיל-js" class="title-slide slide level1">
+<h1>תרגיל JS</h1>
+<p><a href="https://github.com/benglewis/advanced-js-exercise">Clone GitHub: https://github.com/benglewis/advanced-js-exercise</a> Use <a href="https://stackblitz.com/fork/node">Stackblitz</a> if you don’t have Node.JS and can’t install it locally</p>
+</section>
+
+<section id="internationalization" class="title-slide slide level1">
+<h1>Internationalization</h1>
+<ul>
+<li class="fragment">יש תמיכה בשפות שונות ב-ES6</li>
+<li class="fragment"><a href="http://es6-features.org/#Collation">אפשר להשוות ולסדר מחרוזת עם אותיות מקומים</a></li>
+<li class="fragment"><a href="http://es6-features.org/#NumberFormatting">אפשר להציג מספרים לפי שיטה מקומית</a></li>
+<li class="fragment"><a href="http://es6-features.org/#CurrencyFormatting">אפשר להציג מטבעות לפי שיטה מקומית</a></li>
+<li class="fragment"><a href="http://es6-features.org/#DateTimeFormatting">אפשר להציג תאריכים לפי שיטה מקומית</a></li>
+</ul>
+</section>
+
+<section>
+<section id="cesium" class="title-slide slide level1">
+<h1>Cesium</h1>
+<ul>
+<li class="fragment">סיפרית JS שמאפשרת הצגת מפות מקוייקות ואיכותיות באתר אינטרנט</li>
+<li class="fragment">מבוססת על טכנולוגית web בשם WebGL</li>
+<li class="fragment">ממשק WebGL מאפשר לה להאיץ את הרצה בדפדפן ע”י כרטיס הגרפי של המחשב</li>
+<li class="fragment">לסזיום יש יכולות מאוד מתקדמות</li>
+<li class="fragment">יש גם אופציה לאינטרקטיביות של הישויות שהוצגו ע”ג המפה</li>
+<li class="fragment">יש לה יכולת לעבור בין תצוגת תלת-ממד לדו-וחצי -דו-ממד בזמן ריצה ע”י widget</li>
+</ul>
+</section>
+<section id="יכולות-של-cesium" class="slide level2">
+<h2>יכולות של Cesium</h2>
+<ul>
+<li class="fragment">הצגת מפות תצ”א</li>
+<li class="fragment">הצגת מפותגובה</li>
+<li class="fragment">הצגת צורות</li>
+<li class="fragment">כותרות</li>
+<li class="fragment">מודלים תלת-ממדים סטטים ואלו שזזים לאורך זמן</li>
+</ul>
+</section></section>
+<section id="למה-להשתמש-ב-cesium" class="title-slide slide level1">
+<h1>למה להשתמש ב-Cesium?</h1>
+<ul>
+<li class="fragment">בערך הספריה היחידה שמסוגלת להציג תצוגת כדור הארץ בתלת-ממד בדפדפן שהיא Open Source</li>
+<li class="fragment">מתחרים אחרים כמו MapBox אומנם יותר יפים, אבל אין להם את היכולות המתקדמות כגון מפות תלת-ממדיות</li>
+</ul>
+</section>
+
+<section>
+<section id="מושגים-של-cesium" class="title-slide slide level1">
+<h1>מושגים של Cesium</h1>
+<ul>
+<li class="fragment">מצלמה, ה-camera אחריאת על נוקדת מבט של ה-view בדפדפן של כדור הארץ</li>
+<li class="fragment">ה-viewer אחריאת על render של כל המפות ב-Cesium אבל אפשר לנהל מתי היא מרנדרת</li>
+</ul>
+</section>
+<section id="entities" class="slide level2">
+<h2>Entities</h2>
+<ul>
+<li class="fragment">ישות high-level משאגד כל מיני ישויות גרפיות שמוצגות ב-Cesium</li>
+<li class="fragment">יכול להכיל כל סוג של גרפיקה בין אם זה קופסה, אליפסה או אליפסויד, מודלים תלת-ממדים בסטנדרט glTF שמותאם ל-OpenGL ו-WebGL או נקודות או צורות למשל</li>
+<li class="fragment">ה-Entity בעל מיקום ואורינטציה</li>
+<li class="fragment"><a href="https://cesium.com/learn/cesiumjs-learn/cesiumjs-creating-entities/#picking">הדגמות</a></li>
+</ul>
+</section>
+<section id="imagery" class="slide level2">
+<h2>Imagery</h2>
+<ul>
+<li class="fragment">ב-Cesium אפשר להציג תצ”א ומפות רגילות ולשלב בניהם עם מפות גובה</li>
+<li class="fragment">ב-Cesium קוראים למפות אלו שכבות Imagery</li>
+<li class="fragment">אפשר לראות <a href="https://cesium.com/learn/cesiumjs-learn/cesiumjs-imagery/#imagery-providers-vs-layers">דוגמאות</a> בהן משתמשים ב-API חיצוני עם המון אריכים בגדלים שונים ש-Cesium פונה אליהם ליצור תמונה איכותית וגם דוגמא עם תמונה אחת פשוט עבור כל כדור הארץ</li>
+<li class="fragment">אפשר גם להשתמש <a href="https://cesium.com/learn/cesiumjs/ref-doc/global.html?classFilter=build#buildModuleUrl">בתיקייה</a> ב-<code>./public</code> בתור שירות</li>
+<li class="fragment">אפשר להציג מפות גובה ע”י <a href="https://cesium.com/learn/cesiumjs-learn/cesiumjs-terrain/"><code>terrainProvider</code></a></li>
+</ul>
+</section>
+<section id="geojson" class="slide level2">
+<h2>GeoJSON</h2>
+<ul>
+<li class="fragment">סטנדרט לאובייקטים/צורות גיומרטים</li>
+<li class="fragment">אפשר להשתמש בו ב-Cesium</li>
+<li class="fragment">לא מגדיר את עיצובם של הישויות</li>
+<li class="fragment">אין תמיכה בישויות מורכבות כגון מודלים תלת-ממדים</li>
+<li class="fragment"><a href="https://sandcastle.cesium.com/index.html?src=GeoJSON%2520simplestyle.html">דוגמא</a></li>
+</ul>
+</section>
+<section id="topojson" class="slide level2">
+<h2>TopoJSON</h2>
+<ul>
+<li class="fragment">מוסיף יכולת topography אל GeoJSON מורכב מ-arcs של ישויות גיוגרפיות</li>
+<li class="fragment">מאפשר דחיסת צורות מורכבת לעומת GeoJSON</li>
+<li class="fragment"><a href="https://sandcastle.cesium.com/index.html?src=GeoJSON%2520and%2520TopoJSON.html">דוגמא</a></li>
+</ul>
+</section>
+<section id="ביצועים" class="slide level2">
+<h2>ביצועים</h2>
+<ul>
+<li class="fragment">יש כלי בשם <code>frameRateMonitor</code> שמאפשר לך לקבל events במקרה ו-Cesium לא מצליחה לרנדר בFPS שדרשת</li>
+<li class="fragment">אפשר לנהל מתי Cesium מרנדר מחדש דרך <code>requestRenderMode: false</code> וקריאות ל<code>view.scene.requestRender()</code> ואפשר להגדיר אחרי כמה זמן בסימולציה הוא מרנדר עם <code>maximumRenderTimeChange: timeInSeconds</code></li>
+<li class="fragment">נראה את זה ביחד: <a href="https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/">https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/</a></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
