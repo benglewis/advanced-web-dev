@@ -12,7 +12,7 @@ This repository contains presentations and guidance for exercises for presentati
 6. [Advanced React](./advanced-react/advanced-react.html)
 7. [ngRx](./ngrx/ngrx.html)
 8. react-redux
-9. Advanced CSS - Coming soon!
+9. [Advanced CSS](./advanced-css/advanced-css.html)
 10. Tools to help write better code - Coming soon!
 
 Note: All of the presentations are in Hebrew.
