@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>פיתוח נכון ב-web</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="../fix-rtl.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">פיתוח נכון ב-web</h1>
+</section>
+
+<section id="repository-templates" class="title-slide slide level1">
+<h1>Repository templates</h1>
+<ul>
+<li class="fragment">אפשר ליצור repository ב-Git שהוא template לפרויקטים</li>
+<li class="fragment">ב-Vite ממליצים על זה</li>
+<li class="fragment">אפשר להשתמש בכלי בשם <a href="https://github.com/Rich-Harris/degit">degit</a></li>
+</ul>
+</section>
+
+<section id="section" class="title-slide slide level1">
+<h1></h1>
+<p><img data-src="https://s-media-cache-ak0.pinimg.com/736x/17/57/e6/1757e69fe79e220b9cdd0775231894a8.jpg" height="475" /></p>
+</section>
+
+<section>
+<section id="abstract-syntax-tree" class="title-slide slide level1">
+<h1>Abstract Syntax Tree</h1>
+<ul>
+<li class="fragment"><a href="https://www.youtube.com/watch?v=mi6DoxNEN6w">WTF is an Abstract Syntax Tree?</a></li>
+<li class="fragment">ב-JS משתמשים ב-AST הרבה כדאי לבצע המרות שונות, איזה?</li>
+<li class="fragment">עבור בדיקת linting ו-formatting ע”י Prettier</li>
+<li class="fragment"><a href="https://resources.jointjs.com/demos/javascript-ast">JS AST Visualizer</a></li>
+<li class="fragment"><a href="https://astexplorer.net">AST Explorer</a></li>
+</ul>
+</section>
+<section id="linting" class="slide level2">
+<h2>Linting</h2>
+<ul>
+<li class="fragment">מונע באגים, בעיות אבטחה ו-code debt</li>
+<li class="fragment">משתמשים ב-ESLint</li>
+<li class="fragment">ניתן לקנפג אותו ומומלץ לבחור חוקים במיוחד, למשל <code>no-eval</code> הוא חוק חשוב</li>
+<li class="fragment">אפשר להתבסס על על config של חברה אחרת למשל <a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base/rules"><code>eslint-config-airbnb</code></a></li>
+<li class="fragment">יכולת של תיקון אוטומטי מבוסס על AST כדי לא להכניס באגים</li>
+<li class="fragment">נשתמש גם כן ב-<a href="https://github.com/SonarSource/eslint-plugin-sonarjs">SonarJS</a></li>
+</ul>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p><img data-src="https://cbsnews3.cbsistatic.com/hub/i/r/2015/06/11/d36658bd-3547-4254-8e03-7ef21e45d456/thumbnail/1200x630/edb694e5131b2460bee6ef6badbf8e84/alexa-meade.jpg" /></p>
+</section>
+<section id="formatting" class="slide level2">
+<h2>Formatting</h2>
+<ul>
+<li class="fragment">חשוב שהקוד יראה כמו דבר אחד</li>
+<li class="fragment">היו אופציות מבוססות על חוקי שינוי, אבל הם היו עלולים לשבור קוד</li>
+<li class="fragment">כאשר משתמשים ב-Prettier ה-AST דואג לכך שאין שינוי במשמעות הקוד</li>
+<li class="fragment"><a href="https://prettier.io/docs/en/comparison.html">ב-linters הבדלים ב-code-style יוצרים שגיאה פתירה, ב-prettier הם נפתרים אוטומטית</a></li>
+<li class="fragment">אפשר לקנפג אותה ע”י <code dir="ltr">.prettierc</code></li>
+</ul>
+</section>
+<section id="codemod" class="slide level2">
+<h2>Codemod</h2>
+<ul>
+<li class="fragment">מאפשר שינוי אוטומטי של פרקי קוד</li>
+<li class="fragment">משתמש ב-AST</li>
+<li class="fragment">אפשר להריץ אותם ע”י <a href="https://github.com/facebook/jscodeshift#transform-module">JS Code Shift</a></li>
+</ul>
+</section>
+<section id="git-hooks" class="slide level2">
+<h2>Git Hooks</h2>
+<ul>
+<li class="fragment">דרך Git Hooks אפשר להריץ תהליכים אוטומטית ברגע שבו פועלות Git בוצעו</li>
+<li class="fragment">למשל אפשר לבצע פועלה לפני כל <code>commit</code>, ב-<code>stage</code> או אחרי <code>push</code> אוטומטית</li>
+<li class="fragment">ב-JS אפשר להוסיף Git Hooks בקלות עם <a href="https://github.com/typicode/husky">Husky</a></li>
+<li class="fragment">ואפילו אפשר להריץ תהליכי lint לפני קומיט עוד יותר בקלו עם <a href="https://github.com/okonet/lint-staged">lint-staged</a></li>
+<li class="fragment"><a href="https://benmccormick.org/2017/02/26/running-jest-tests-before-each-git-commit/">אפשר גם להוסיף Jest כדי להריץ גם בדיקות</a></li>
+</ul>
+</section>
+<section id="editorconfig" class="slide level2">
+<h2>editorconfig</h2>
+<ul>
+<li class="fragment">לא בהכרח כולם יאבהו VSCode</li>
+<li class="fragment">הקובץ editorconfig ו-plugins שלו לאפליקציות שונות מסנכרנים קונפיגורציה</li>
+<li class="fragment">רווח נדרש, סיומות שורות, charset, ו-root פרויקט מסונכרן</li>
+<li class="fragment">לשאר ההגדרות יש ל-VSCode יכולת שמירת Workspace Settings לכל פרויקט</li>
+</ul>
+</section>
+<section id="תרגיל" class="slide level2">
+<h2>תרגיל</h2>
+<ul>
+<li class="fragment"><a href="https://gist.github.com/bjrnt/2bd3fecd7c842f5813a2#file-no-full-fp-lib-js">דוגמאת plugin ל-ESLint</a></li>
+<li class="fragment"><a href="https://github.com/kentcdodds/asts-workshop/#setup">תרגיל</a></li>
+<li class="fragment">רק לעשות את 0, 1 ו-2</li>
+<li class="fragment">שאר התרגילים נעבור עליהם זריז</li>
+<li class="fragment"><a href="https://medium.com/@bjrnt/creating-an-eslint-plugin-87f1cb42767f">לשימוש עתידי ליצור plugin ל-ESLint</a></li>
+</ul>
+</section></section>
+<section>
+<section id="כלי-פיתוח-ל-web" class="title-slide slide level1">
+<h1>כלי פיתוח ל-Web</h1>
+<ul>
+<li class="fragment">מה אמרתי לגבי VSCode… כולם אוהבים VSCode 😂</li>
+</ul>
+</section>
+<section id="פיצורים-שאולי-לא-הכרתם" class="slide level2">
+<h2>פיצ’ורים שאולי לא הכרתם:</h2>
+<ul>
+<li class="fragment">Ctrl / ⌘ +P ו-<code>&gt;</code> ו-<code>@</code></li>
+<li class="fragment">Alt + לחציה</li>
+<li class="fragment">Alt + חצים</li>
+</ul>
+</section>
+<section id="insomnia" class="slide level2">
+<h2><a href="https://insomnia.rest">Insomnia</a></h2>
+<ul>
+<li class="fragment">בדיקת API</li>
+<li class="fragment">כמו Postman אבל יותר חזק</li>
+</ul>
+</section>
+<section id="vscode-extensions" class="slide level2">
+<h2>VSCode extensions</h2>
+<ul>
+<li class="fragment"><a href="https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare">Live Share</a></li>
+<li class="fragment"><a href="https://marketplace.visualstudio.com/items?itemName=chrmarti.regex">Regex Previewer</a></li>
+<li class="fragment"><a href="https://marketplace.visualstudio.com/items?itemName=WallabyJs.quokka-vscode&amp;ref=hackernoon.com">Quokka.js</a></li>
+</ul>
+</section></section>
+<section>
+<section id="פיתוח-מובטח" class="title-slide slide level1">
+<h1>פיתוח מובטח</h1>
+
+</section>
+<section id="וקטורי-תקיפה" class="slide level2">
+<h2>וקטורי תקיפה</h2>
+<ul>
+<li class="fragment">תקיפות באמצע ערוץ התקשורת</li>
+<li class="fragment">תקיפת רכיבים פנימים כגון בסיס נתונים דרך ממשק חוץ</li>
+<li class="fragment">תקיפת גישה לאזורים שאינם אמורים להיות פתוחים למשתמש זה</li>
+<li class="fragment">תקיפה מאתרים אחרים אל האתר שלך</li>
+<li class="fragment">תקיפה דרך ניגון חזור</li>
+<li class="fragment">תקיפות דרך חולשות מוכרות</li>
+</ul>
+</section>
+<section id="mitm" class="slide level2">
+<h2>MITM</h2>
+<ul>
+<li class="fragment"><a href="https://www.hacksplaining.com/exercises/unencrypted-communication">Man in the Middle</a></li>
+<li class="fragment">חשוב להשתמש ב-HTTPS עם TLS כדי למנוע תקיפות בצד ג’ באמצע</li>
+</ul>
+</section>
+<section id="injection" class="slide level2">
+<h2>Injection</h2>
+<ul>
+<li class="fragment">שימוש ב-<code>eval</code> כלשהו בקוד עלול לתת למשתמשים באתר גישה לכל השרת!</li>
+<li class="fragment">ה-Docker שלנו והרשאות מוגבלות ברמת כל שירות מגבילות את התקיפה הזאת</li>
+<li class="fragment">ו-linting יכול לתפוס טעויות כאלו, אבל חשוב מאוד לבצע sanitization לכל קלט שמגיע מהמשתמש</li>
+<li class="fragment">כלומר, לסנן שרק טקסט/מספר/פרמטרים ולידיים התקבלו</li>
+</ul>
+</section>
+<section id="db-injection" class="slide level2">
+<h2>DB Injection</h2>
+<ul>
+<li class="fragment">חשוב גם להבין את התקיפות האפשריות ב-DB, למשל <a href="https://www.hacksplaining.com/exercises/sql-injection">SQL injection</a> או MongoDB injection</li>
+<li class="fragment">חשוב לא להשתמש ב-<code>where</code>, <code>mapReduce</code> או <code>group</code> עם נתונים המגיעים מהמשתמש כי כולם כברירת מחדל מקבלים JS להריץ!</li>
+<li class="fragment">גם קבצי JSON עלולים להיות מקור ל-injection</li>
+</ul>
+</section>
+<section id="הרשאות-והזדהות" class="slide level2">
+<h2>הרשאות והזדהות</h2>
+<ul>
+<li class="fragment">חשוב לבדוק מי מהמשתמש ע”י שם משתמש וסיסמא ולשמור את הזהות ב-cookie</li>
+<li class="fragment">חשוב לא לתת למשתמשים לא מורשים לגעת במשאבים שאין להם גישה אליו</li>
+<li class="fragment">אפשר להשתמש ב-<a href="https://connect2id.com/learn/openid-connect">OpenID Connect</a> להתחברות ואימות</li>
+</ul>
+</section>
+<section id="xss" class="slide level2">
+<h2>XSS</h2>
+<ul>
+<li class="fragment"><a href="https://www.hacksplaining.com/exercises/xss-stored">XSS: Cross Site Scripting example</a></li>
+<li class="fragment">אפשר להגן מזה עם sanitization, אבל אפשר גם לא לאפשר הרצת JS מ-domain אחר ע”י CSP</li>
+<li class="fragment">ב-CSP: Content Security Policy אפשר להגדיר מאיזו מקורות לאפשר הרצת JS באתר שלך
+<ul>
+<li class="fragment"><code>Content-Security-Policy: default-src 'self' trusted.com *.trusted.com</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="csrf" class="slide level2">
+<h2>CSRF</h2>
+<ul>
+<li class="fragment"><a href="https://www.hacksplaining.com/exercises/csrf">CSRF: Cross Site Request Forgery example</a></li>
+<li class="fragment">לא משתמשים ב-POST כדי לשנות מידע</li>
+<li class="fragment">שימוש ב-token שנגיש אל JS שרץ על האתר בלבד והעברתו ל-header כך שאין להאקר דרך לקרוא ולהעביר אותו</li>
+<li class="fragment">SOP: Same Origin Policy מונעת תקיפות ושימוש באתר ב-JS</li>
+<li class="fragment">CORS: Cross Site Origin Resource Sharing מאפשר שימוש מוגדר של האתר באתרים אחרים</li>
+</ul>
+</section>
+<section id="תקיפות-ניגון-חוזר" class="slide level2">
+<h2>תקיפות ניגון חוזר</h2>
+<ul>
+<li class="fragment">התוקף “מנגן” חזרה את הבקשה האחרונה</li>
+<li class="fragment">אפשר למנוע ע”י שימוש ב-token זמני לכל פועלה</li>
+</ul>
+</section>
+<section id="חולשות-מוכרות" class="slide level2">
+<h2>חולשות מוכרות</h2>
+<ul>
+<li class="fragment">חשוב לסרוק את כל הרכיבים וספריות לחושלות מוכרות</li>
+<li class="fragment">אפשר לסרוק NPM packages ב-<a href="https://snyk.io/advisor/">Snyk Advisor</a></li>
+<li class="fragment">אפשר לסרוק Docker images ע”י <a href="https://snyk.io/learn/docker-security-scanning/"><code>docker scan my-image-name</code></a> או ע”י <a href="https://www.redhat.com/en/topics/containers/what-is-clair">Clair</a> של RedHat דרך Quay</li>
+<li class="fragment">אם יש פחות תלויות יותר קל לדעת שהן לא נגועות</li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

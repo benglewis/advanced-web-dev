@@ -13,6 +13,6 @@ This repository contains presentations and guidance for exercises for presentati
 7. [ngRx](./ngrx/ngrx.html)
 8. react-redux
 9. [Advanced CSS](./advanced-css/advanced-css.html)
-10. Tools to help write better code - Coming soon!
+10. [Web dev best practices](./web-dev-best-practices/web-dev-best-practices.html)
 
 Note: All of the presentations are in Hebrew.
